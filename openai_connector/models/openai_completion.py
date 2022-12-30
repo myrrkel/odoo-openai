@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2020 - Myrrkel (https://github.com/myrrkel).
+# Copyright (C) 2022 - Myrrkel (https://github.com/myrrkel).
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo import models, fields, api, _
@@ -42,15 +42,22 @@ class OpenAiCompletion(models.Model):
 
     def create_completion(self, rec_id):
         openai = self.get_openai()
-        return openai.Completion.create(
+        prompt = self.get_prompt(rec_id)
+        res = openai.Completion.create(
             model=self.ai_model,
-            prompt=self.get_prompt(rec_id),
+            prompt=prompt,
             max_tokens=self.max_tokens,
             temperature=self.temperature,
             top_p=self.top_p,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
         )
+        answer = res.choices[0].text
+        prompt_tokens = res.usage.prompt_tokens
+        completion_tokens = res.usage.completion_tokens
+        total_tokens = res.usage.total_tokens
+        result_id = self.create_result(rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens)
+        return result_id
 
     def get_prompt(self, rec_id):
         context = {'html2plaintext': html2plaintext}
@@ -63,10 +70,24 @@ class OpenAiCompletion(models.Model):
         return prompt[rec_id]
 
     def apply_completion(self, rec_id):
-        res = self.create_completion(rec_id)
-        completion_text = res.choices[0].text
+        result_id = self.create_completion(rec_id)
+
         record = self.env[self.model_id.model].browse(rec_id)
-        record.write({self.target_field_id.name: completion_text})
+        record.write({self.target_field_id.name: result_id.answer})
+
+    def create_result(self, rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens):
+        values = {'completion_id': self.id,
+                  'model_id': self.model_id.id,
+                  'target_field_id': self.target_field_id.id,
+                  'res_id': rec_id,
+                  'prompt': prompt,
+                  'answer': answer,
+                  'prompt_tokens': prompt_tokens,
+                  'completion_tokens': completion_tokens,
+                  'total_tokens': total_tokens,
+                  }
+        result_id = self.env['openai.completion.result'].create(values)
+        return result_id
 
     def get_records(self, limit=0):
         domain = safe_eval(self.domain, SAFE_EVAL_BASE, {'self': self}) if self.domain else []

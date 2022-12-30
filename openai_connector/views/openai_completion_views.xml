@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-   <record id="openai_completion_view_form" model="ir.ui.view">
+    <record id="openai_completion_view_form" model="ir.ui.view">
         <field name="name">OpenAI Completion</field>
         <field name="model">openai.completion</field>
         <field name="arch" type="xml">
@@ -36,28 +36,26 @@
                         </group>
                     </group>
 
-                    <div class="oe_edit_only alert alert-info" role="alert">
-                        <b>Available in prompt template:</b><br/>
-                        object : Current record<br/>
-                        answer_lang : Language name<br/>
-                        html2plaintext : Convert html to text
-                    </div>
-
                     <group name="bottom">
                         <field name="prompt_template" widget="ace" options="{'mode': 'xml'}"/>
                     </group>
 
                     <group name="tests" col="1">
-
                         <button name="run_test_prompt" type="object"
-                                string="Test Prompt" class="btn btn-primary" icon="fa-terminal"/>
-                        <group name="test_results" col="2">
+                                string="Test Prompt" class="btn btn-primary btn-center" icon="fa-terminal"/>
+                        <div class="oe_edit_only alert alert-info mt-3" role="alert">
+                            <b>Available in prompt template:</b><br/>
+                            object : Current record<br/>
+                            answer_lang : Language name<br/>
+                            html2plaintext : Convert html to text
+                        </div>
+                        <group col="2">
                             <field name="test_prompt"/>
                         </group>
 
                         <button name="run_test_completion" type="object"
-                                string="Test Completion" class="btn btn-primary" icon="fa-cogs"/>
-                        <group name="test_results" col="2">
+                                string="Test Completion" class="btn btn-primary btn-center" icon="fa-cogs"/>
+                        <group col="2">
                             <field name="test_answer"/>
                         </group>
                     </group>
@@ -104,7 +102,7 @@
     </record>
 
 
-    <menuitem id="menu_openai" name="OpenAI" parent="base.menu_custom"  sequence="25"/>
+    <menuitem id="menu_openai" name="OpenAI" parent="base.menu_custom" sequence="25"/>
     <menuitem id="menu_openai_completion" name="OpenAI Completion"
               action="openai_completion_action"
               sequence="2"

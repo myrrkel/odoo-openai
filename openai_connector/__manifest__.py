@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2020 - Myrrkel (https://github.com/myrrkel).
+# Copyright (C) 2022 - Myrrkel (https://github.com/myrrkel).
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 {
     'name': 'OpenAI Connector',
@@ -30,7 +30,14 @@
         'security/security.xml',
         'views/res_config_settings_views.xml',
         'views/openai_completion_views.xml',
+        'views/openai_completion_result_views.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'openai_connector/static/src/scss/style.scss',
+        ],
+    },
+
     'auto_install': False,
     'installable': True,
     'application': False,

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="openai_completion_result_view_form" model="ir.ui.view">
+        <field name="name">OpenAI Completion Result</field>
+        <field name="model">openai.completion.result</field>
+        <field name="arch" type="xml">
+            <form string="OpenAI Completion Result">
+                <sheet>
+                    <header>
+                        <button name="apply_completion" type="object"
+                                string="Apply Completion" class="btn-primary"/>
+                    </header>
+                    <group name="top">
+                        <group name="top_left">
+                            <field name="completion_id"/>
+                            <field name="resource_ref"/>
+                            <field name="prompt_tokens"/>
+                            <field name="total_tokens"/>
+                        </group>
+                        <group name="top_right">
+                            <field name="model_id"/>
+                            <field name="target_field_id"/>
+                            <field name="completion_tokens"/>
+                        </group>
+                    </group>
+
+                    <group name="result" col="1">
+                        <group col="2">
+                            <field name="answer"/>
+                            <field name="origin_answer" attrs="{'invisible': [('origin_answer', '=', False)]}"/>
+                            <field name="prompt"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="openai_completion_result_view_tree" model="ir.ui.view">
+        <field name="name">OpenAI Completion Result</field>
+        <field name="model">openai.completion.result</field>
+        <field name="arch" type="xml">
+            <tree string="OpenAI Completion Result" create="false">
+                <field name="completion_id"/>
+                <field name="model_id"/>
+                <field name="target_field_id"/>
+                <field name="resource_ref"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="openai_completion_result_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Completion Results</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">openai.completion.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No OpenAI Completion Result
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_openai_completion_result" name="OpenAI Completion Result"
+              action="openai_completion_result_action"
+              sequence="3"
+              parent="openai_connector.menu_openai"/>
+</odoo>
