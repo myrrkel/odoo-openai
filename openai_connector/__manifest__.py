@@ -12,7 +12,11 @@
     'license': 'LGPL-3',
     'depends': [
         'base',
+        'mail',
     ],
+    'external_dependencies': {
+        'python': ['openai'],
+    },
     'category': 'OpenAI',
     'complexity': 'easy',
     'qweb': [
@@ -24,6 +28,8 @@
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',
+        'views/res_config_settings_views.xml',
+        'views/openai_completion_views.xml',
     ],
     'auto_install': False,
     'installable': True,

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+   <record id="openai_completion_view_form" model="ir.ui.view">
+        <field name="name">OpenAI Completion</field>
+        <field name="model">openai.completion</field>
+        <field name="arch" type="xml">
+            <form string="OpenAI Completion">
+                <sheet>
+                    <header>
+                        <button name="run_completion" type="object"
+                                string="Run Completion" class="btn-primary" data-hotkey="r"/>
+                    </header>
+                    <group name="top">
+                        <group name="top_left">
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="domain"/>
+                        </group>
+                        <group name="top_right">
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="target_field_id" domain="[('model_id', '=', model_id)]"/>
+                            <field name="answer_lang_id" context="{'active_test': False}"/>
+                        </group>
+                    </group>
+
+                    <group name="params">
+                        <group name="params_left">
+                            <field name="ai_model"/>
+                            <field name="temperature"/>
+                            <field name="frequency_penalty"/>
+                        </group>
+                        <group name="params_right">
+                            <field name="max_tokens"/>
+                            <field name="top_p"/>
+                            <field name="presence_penalty"/>
+                        </group>
+                    </group>
+
+                    <div class="oe_edit_only alert alert-info" role="alert">
+                        <b>Available in prompt template:</b><br/>
+                        object : Current record<br/>
+                        answer_lang : Language name<br/>
+                        html2plaintext : Convert html to text
+                    </div>
+
+                    <group name="bottom">
+                        <field name="prompt_template" widget="ace" options="{'mode': 'xml'}"/>
+                    </group>
+
+                    <group name="tests" col="1">
+
+                        <button name="run_test_prompt" type="object"
+                                string="Test Prompt" class="btn btn-primary" icon="fa-terminal"/>
+                        <group name="test_results" col="2">
+                            <field name="test_prompt"/>
+                        </group>
+
+                        <button name="run_test_completion" type="object"
+                                string="Test Completion" class="btn btn-primary" icon="fa-cogs"/>
+                        <group name="test_results" col="2">
+                            <field name="test_answer"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="openai_completion_view_tree" model="ir.ui.view">
+        <field name="name">OpenAI Completion</field>
+        <field name="model">openai.completion</field>
+        <field name="arch" type="xml">
+            <tree string="OpenAI Completion">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="target_field_id"/>
+                <field name="ai_model"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="openai_completion_view_search" model="ir.ui.view">
+        <field name="name">openai.completion.view.search</field>
+        <field name="model">openai.completion</field>
+        <field name="arch" type="xml">
+            <search string="Search OpenAI Completion">
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="openai_completion_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Completions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">openai.completion</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="openai_completion_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new OpenAI Completion
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_openai" name="OpenAI" parent="base.menu_custom"  sequence="25"/>
+    <menuitem id="menu_openai_completion" name="OpenAI Completion"
+              action="openai_completion_action"
+              sequence="2"
+              parent="openai_connector.menu_openai"/>
+</odoo>
