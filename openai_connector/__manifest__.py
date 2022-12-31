@@ -31,6 +31,8 @@
         'views/res_config_settings_views.xml',
         'views/openai_completion_views.xml',
         'views/openai_completion_result_views.xml',
+        'views/openai_edit_views.xml',
+        'views/openai_edit_result_views.xml',
     ],
     'assets': {
         'web.assets_backend': [

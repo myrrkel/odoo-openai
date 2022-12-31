@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <record id="openai_completion_result_view_form" model="ir.ui.view">
-        <field name="name">OpenAI Completion Result</field>
-        <field name="model">openai.completion.result</field>
+    <record id="openai_edit_result_view_form" model="ir.ui.view">
+        <field name="name">OpenAI Edit Result</field>
+        <field name="model">openai.edit.result</field>
         <field name="arch" type="xml">
-            <form string="OpenAI Completion Result">
+            <form string="OpenAI Edit Result">
                 <sheet>
                     <header>
-                        <button name="action_apply_completion" type="object"
-                                string="Apply Completion" class="btn-primary"/>
+                        <button name="action_apply_edit" type="object"
+                                string="Apply Edit" class="btn-primary"/>
                     </header>
                     <group name="top">
                         <group name="top_left">
-                            <field name="completion_id"/>
+                            <field name="edit_id"/>
                             <field name="resource_ref"/>
                             <field name="prompt_tokens"/>
                             <field name="total_tokens"/>
@@ -36,12 +36,12 @@
         </field>
     </record>
 
-    <record id="openai_completion_result_view_tree" model="ir.ui.view">
-        <field name="name">OpenAI Completion Result</field>
-        <field name="model">openai.completion.result</field>
+    <record id="openai_edit_result_view_tree" model="ir.ui.view">
+        <field name="name">OpenAI Edit Result</field>
+        <field name="model">openai.edit.result</field>
         <field name="arch" type="xml">
-            <tree string="OpenAI Completion Result" create="false">
-                <field name="completion_id"/>
+            <tree string="OpenAI Edit Result" create="false">
+                <field name="edit_id"/>
                 <field name="model_id"/>
                 <field name="target_field_id"/>
                 <field name="resource_ref"/>
@@ -49,20 +49,20 @@
         </field>
     </record>
 
-    <record id="openai_completion_result_action" model="ir.actions.act_window">
-        <field name="name">OpenAI Completion Results</field>
+    <record id="openai_edit_result_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Edit Results</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">openai.completion.result</field>
+        <field name="res_model">openai.edit.result</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                No OpenAI Completion Result
+                No OpenAI Edit Result
             </p>
         </field>
     </record>
 
-    <menuitem id="menu_openai_completion_result" name="OpenAI Completion Result"
-              action="openai_completion_result_action"
-              sequence="3"
+    <menuitem id="menu_openai_edit_result" name="OpenAI Edit Result"
+              action="openai_edit_result_action"
+              sequence="4"
               parent="openai_connector.menu_openai"/>
 </odoo>

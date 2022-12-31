@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <record id="openai_completion_view_form" model="ir.ui.view">
-        <field name="name">OpenAI Completion</field>
-        <field name="model">openai.completion</field>
+    <record id="openai_edit_view_form" model="ir.ui.view">
+        <field name="name">OpenAI Edit</field>
+        <field name="model">openai.edit</field>
         <field name="arch" type="xml">
-            <form string="OpenAI Completion">
+            <form string="OpenAI Edit">
                 <sheet>
                     <header>
-                        <button name="run_completion" type="object"
-                                string="Run Completion" class="btn-primary" data-hotkey="r"/>
+                        <button name="run_edit" type="object"
+                                string="Run Edit" class="btn-primary" data-hotkey="r"/>
                     </header>
                     <group name="top">
                         <group name="top_left">
@@ -26,14 +26,11 @@
                     <group name="params">
                         <group name="params_left">
                             <field name="ai_model"/>
-                            <field name="n"/>
                             <field name="temperature"/>
-                            <field name="frequency_penalty"/>
                         </group>
                         <group name="params_right">
-                            <field name="max_tokens"/>
+                            <field name="n"/>
                             <field name="top_p"/>
-                            <field name="presence_penalty"/>
                         </group>
                     </group>
 
@@ -57,8 +54,8 @@
                             <field name="test_prompt"/>
                         </group>
 
-                        <button name="run_test_completion" type="object"
-                                string="Test Completion" class="btn btn-primary btn-center" icon="fa-cogs"/>
+                        <button name="run_test_edit" type="object"
+                                string="Test Edit" class="btn btn-primary btn-center" icon="fa-cogs"/>
                         <group col="2">
                             <field name="test_answer"/>
                         </group>
@@ -68,11 +65,11 @@
         </field>
     </record>
 
-    <record id="openai_completion_view_tree" model="ir.ui.view">
-        <field name="name">OpenAI Completion</field>
-        <field name="model">openai.completion</field>
+    <record id="openai_edit_view_tree" model="ir.ui.view">
+        <field name="name">OpenAI Edit</field>
+        <field name="model">openai.edit</field>
         <field name="arch" type="xml">
-            <tree string="OpenAI Completion">
+            <tree string="OpenAI Edit">
                 <field name="name"/>
                 <field name="model_id"/>
                 <field name="target_field_id"/>
@@ -82,33 +79,31 @@
         </field>
     </record>
 
-    <record id="openai_completion_view_search" model="ir.ui.view">
-        <field name="name">openai.completion.view.search</field>
-        <field name="model">openai.completion</field>
+    <record id="openai_edit_view_search" model="ir.ui.view">
+        <field name="name">openai.edit.view.search</field>
+        <field name="model">openai.edit</field>
         <field name="arch" type="xml">
-            <search string="Search OpenAI Completion">
+            <search string="Search OpenAI Edit">
                 <field name="name"/>
             </search>
         </field>
     </record>
 
-    <record id="openai_completion_action" model="ir.actions.act_window">
-        <field name="name">OpenAI Completions</field>
+    <record id="openai_edit_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Edits</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">openai.completion</field>
+        <field name="res_model">openai.edit</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="openai_completion_view_search"/>
+        <field name="search_view_id" ref="openai_edit_view_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create a new OpenAI Completion
+                Create a new OpenAI Edit
             </p>
         </field>
     </record>
 
-
-    <menuitem id="menu_openai" name="OpenAI" parent="base.menu_custom" sequence="25"/>
-    <menuitem id="menu_openai_completion" name="OpenAI Completion"
-              action="openai_completion_action"
-              sequence="2"
+    <menuitem id="menu_openai_edit" name="OpenAI Edit"
+              action="openai_edit_action"
+              sequence="4"
               parent="openai_connector.menu_openai"/>
 </odoo>
