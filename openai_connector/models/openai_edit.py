@@ -29,10 +29,10 @@ class OpenAiEdit(models.Model):
 
     def create_edit(self, rec_id):
         openai = self.get_openai()
-        input = self.get_prompt(rec_id)
+        input_text = self.get_prompt(rec_id)
         res = openai.Edit.create(
             model=self.ai_model,
-            input=input,
+            input=input_text,
             instruction=self.instruction,
             n=self.n,
             temperature=self.temperature,
@@ -49,13 +49,13 @@ class OpenAiEdit(models.Model):
         result_id = self.create_edit(rec_id)
         self.save_result_on_target_field(rec_id, result_id.answer)
 
-    def create_result(self, rec_id, prompt, input, answer, prompt_tokens, completion_tokens, total_tokens):
+    def create_result(self, rec_id, prompt, input_text, answer, prompt_tokens, completion_tokens, total_tokens):
         values = {'completion_id': self.id,
                   'model_id': self.model_id.id,
                   'target_field_id': self.target_field_id.id,
                   'res_id': rec_id,
                   'prompt': prompt,
-                  'input': input,
+                  'input': input_text,
                   'answer': answer,
                   'prompt_tokens': prompt_tokens,
                   'completion_tokens': completion_tokens,
