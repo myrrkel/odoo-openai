@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="openai_image_view_form" model="ir.ui.view">
+        <field name="name">OpenAI Image</field>
+        <field name="model">openai.image</field>
+        <field name="arch" type="xml">
+            <form string="OpenAI Image">
+                <sheet>
+                    <header>
+                        <button name="run_image" type="object"
+                                string="Run Image" class="btn-primary" data-hotkey="r"/>
+                    </header>
+                    <group name="top">
+                        <group name="top_left">
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="domain"/>
+                        </group>
+                        <group name="top_right">
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="target_field_id" domain="[('model_id', '=', model_id)]"/>
+                        </group>
+                    </group>
+
+                    <group name="params">
+                        <group name="params_left">
+                            <field name="method"/>
+                            <field name="n"/>
+                        </group>
+                        <group name="params_right">
+                            <field name="size"/>
+                        </group>
+                    </group>
+
+                    <group name="bottom">
+                        <field name="prompt_template" widget="ace" options="{'mode': 'xml'}"/>
+                    </group>
+
+                    <div class="oe_image_only alert alert-info alert-info-center mt-3" role="alert">
+                        <b>Available in prompt template:</b><br/>
+                        object : Current record<br/>
+                        answer_lang : Language name<br/>
+                        html2plaintext : Convert html to text
+                    </div>
+
+                    <group name="tests" col="1">
+                        <button name="run_test_prompt" type="object"
+                                string="Test Prompt" class="btn btn-primary btn-center" icon="fa-terminal"/>
+                        <group col="2">
+                            <field name="test_prompt"/>
+                        </group>
+
+                        <button name="run_test_image" type="object"
+                                string="Test Image" class="btn btn-primary btn-center" icon="fa-cogs"/>
+                        <group col="2">
+                            <field name="test_answer" widget="image"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="openai_image_view_tree" model="ir.ui.view">
+        <field name="name">OpenAI Image</field>
+        <field name="model">openai.image</field>
+        <field name="arch" type="xml">
+            <tree string="OpenAI Image">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="target_field_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="openai_image_view_search" model="ir.ui.view">
+        <field name="name">openai.image.view.search</field>
+        <field name="model">openai.image</field>
+        <field name="arch" type="xml">
+            <search string="Search OpenAI Image">
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="openai_image_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Images</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">openai.image</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="openai_image_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new OpenAI Image
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_openai_image" name="OpenAI Image"
+              action="openai_image_action"
+              sequence="5"
+              parent="openai_connector.menu_openai"/>
+</odoo>

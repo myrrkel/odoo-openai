@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2022 - Myrrkel (https://github.com/myrrkel).
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+# License GPL-3.0 or later (https://www.gnu.org/licenses/gpl.html).
 
 from . import res_config_settings
 from . import openai_mixin
@@ -9,3 +9,5 @@ from . import openai_completion
 from . import openai_completion_result
 from . import openai_edit
 from . import openai_edit_result
+from . import openai_image
+from . import openai_image_result

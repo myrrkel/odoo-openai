@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2022 - Myrrkel (https://github.com/myrrkel).
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+# License GPL-3.0 or later (https://www.gnu.org/licenses/gpl.html).
 
 from odoo import models, fields, api, _
 
@@ -24,7 +24,6 @@ class OpenAiCompletion(models.Model):
     ai_model = fields.Selection(selection='_get_openai_model_list', string='AI Model', required=True)
     temperature = fields.Float(default=1)
     max_tokens = fields.Integer(default=16)
-    n = fields.Integer(default=1)
     top_p = fields.Float(default=1)
     frequency_penalty = fields.Float()
     presence_penalty = fields.Float()
@@ -77,4 +76,4 @@ class OpenAiCompletion(models.Model):
             return
         self.test_prompt = self.get_prompt(rec_id)
         res = self.create_completion(rec_id)
-        self.test_answer = res.choices[0].text
+        self.test_answer = res.answer

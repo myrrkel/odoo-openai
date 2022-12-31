@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="openai_image_result_view_form" model="ir.ui.view">
+        <field name="name">OpenAI Image Result</field>
+        <field name="model">openai.image.result</field>
+        <field name="arch" type="xml">
+            <form string="OpenAI Image Result">
+                <sheet>
+                    <header>
+                        <button name="action_apply_image" type="object"
+                                string="Apply Image" class="btn-primary"/>
+                    </header>
+                    <group name="top">
+                        <group name="top_left">
+                            <field name="image_id"/>
+                            <field name="resource_ref"/>
+                        </group>
+                        <group name="top_right">
+                            <field name="model_id"/>
+                            <field name="target_field_id"/>
+                        </group>
+                    </group>
+
+                    <group name="result" col="1">
+                        <group col="2">
+                            <field name="answer" widget="image"/>
+                            <field name="prompt"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="openai_image_result_view_tree" model="ir.ui.view">
+        <field name="name">OpenAI Image Result</field>
+        <field name="model">openai.image.result</field>
+        <field name="arch" type="xml">
+            <tree string="OpenAI Image Result" create="false">
+                <field name="image_id"/>
+                <field name="model_id"/>
+                <field name="target_field_id"/>
+                <field name="resource_ref"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="openai_image_result_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Image Results</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">openai.image.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No OpenAI Image Result
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_openai_image_result" name="OpenAI Image Result"
+              action="openai_image_result_action"
+              sequence="6"
+              parent="openai_connector.menu_openai"/>
+</odoo>

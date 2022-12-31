@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2022 - Myrrkel (https://github.com/myrrkel).
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+# License GPL-3.0 or later (https://www.gnu.org/licenses/gpl.html).
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
@@ -24,6 +24,7 @@ class OpenAiMixin(models.AbstractModel):
     domain = fields.Char()
     target_field_id = fields.Many2one('ir.model.fields', string='Target Field')
     prompt_template = fields.Text()
+    n = fields.Integer(default=1)
     answer_lang_id = fields.Many2one('res.lang', string='Answer Language', context={'active_test': False})
     test_prompt = fields.Text(readonly=True)
 
