@@ -25,7 +25,7 @@ This module requires the Python client library for OpenAI API
 ## Maintainer
 
 * This module is maintained by [Myrrkel](https://github.com/myrrkel). 
-* Join me on [LinkedIn](https://www.linkedin.com/in/michel-perrocheau-ba17a4122). 
+* Contact me on [LinkedIn](https://www.linkedin.com/in/michel-perrocheau-ba17a4122). 
 
 [<img src="./static/description/logo.png" style="width:200px;"/>](https://github.com/myrrkel)
 
