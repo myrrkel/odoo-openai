@@ -33,9 +33,8 @@ class OpenAiImage(models.Model):
 
     def create_image(self, rec_id):
         prompt = self.get_prompt(rec_id)
-        # res = self.run_image_method(prompt)
-        # image_url = res['data'][0]['url']
-        image_url = 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-bnQHvSqiGxNzSx39MYTbr2xi/user-l2oXR7Xbf4kmIXFvNwxtXoKO/img-I5SGYmzf8XPCbuiQA8Cb2Gem.png?st=2022-12-31T11%3A29%3A26Z&se=2022-12-31T13%3A29%3A26Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2022-12-31T04%3A07%3A01Z&ske=2023-01-01T04%3A07%3A01Z&sks=b&skv=2021-08-06&sig=yIA%2B%2BJLnwGETFKPyFiPv0BRyQO2Uumh1NYqkPH/2J5M%3D'
+        res = self.run_image_method(prompt)
+        image_url = res['data'][0]['url']
         result_id = self.create_result(rec_id, prompt, image_url)
         return result_id
 
