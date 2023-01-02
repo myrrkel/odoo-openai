@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2022 - Myrrkel (https://github.com/myrrkel).
-# License GPL-3.0 or later (https://www.gnu.org/licenses/gpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     'name': 'OpenAI Connector',
     'version': '16.0.0.0',
@@ -9,7 +9,7 @@
     'summary': "This module adds a connector for OpenAI API",
     'sequence': 0,
     'certificate': '',
-    'license': 'GPL-3',
+    'license': 'AGPL-3',
     'depends': [
         'base',
         'mail',
