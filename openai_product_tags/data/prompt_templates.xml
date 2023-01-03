@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <template id="completion_product_tag_template">
+# Product name: <t t-out="object.name"/>
+
+# Product description:
+<t t-out="html2plaintext(object.description)"/>
+
+# Give 5 tags for the mains qualities of this product as a Python list
+        </template>
+    </data>
+</odoo>

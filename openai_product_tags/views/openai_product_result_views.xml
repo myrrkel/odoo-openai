@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <record id="openai_product_tags_search" model="ir.ui.view">
+        <field name='name'>openai.product.tags.search</field>
+        <field name='model'>openai.completion.result</field>
+        <field name='arch' type='xml'>
+            <search string="OpenAI Product Tags Results">
+                <filter name="openai_product_tags" string="Product Tags Results"
+                        domain="[('completion_id', '=', %(openai_product_tags.completion_product_tags)d)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="openai_create_product_tags_action" model="ir.actions.server">
+        <field name="name">Create Product Tags</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_openai_create_product_tags()</field>
+    </record>
+
+    <record id="openai_product_tags_result_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Product Tags Results</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">openai.completion.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="openai_connector.openai_completion_result_simple_view_tree"/>
+        <field name="search_view_id" ref="openai_product_tags_search"/>
+        <field name="context">{'search_default_openai_product_tags': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No OpenAI Product Tags Result
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_openai_product_tags_result" name="OpenAI Product Tags"
+              action="openai_product_tags_result_action"
+              sequence="81"
+              parent="sale.menu_sale_config"/>
+</odoo>
