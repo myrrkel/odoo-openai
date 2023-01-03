@@ -1,20 +1,43 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
 
+    <record id="openai_product_description_search" model="ir.ui.view">
+        <field name='name'>openai.product.description.search</field>
+        <field name='model'>openai.completion.result</field>
+        <field name='arch' type='xml'>
+            <search string="OpenAI Product Sales Description Results">
+                <filter name="openai_product_description" string="Product Sales Description Results"
+                        domain="[('completion_id', '=', %(openai_product_description.completion_product_description)d)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="openai_create_product_description_action" model="ir.actions.server">
+        <field name="name">Create Sales Description</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_openai_create_product_sales_description()</field>
+    </record>
+
     <record id="openai_product_description_result_action" model="ir.actions.act_window">
-        <field name="name">OpenAI Product Description Results</field>
+        <field name="name">OpenAI Product Sales Description Results</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">openai.completion.result</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="openai_connector.openai_completion_result_simple_view_tree"/>
+        <field name="search_view_id" ref="openai_product_description_search"/>
+        <field name="context">{'search_default_openai_product_description': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                No OpenAI Product Description Result
+                No OpenAI Product Sales Description Result
             </p>
         </field>
     </record>
 
-    <menuitem id="menu_openai_product_description_result" name="OpenAI Product Description Result"
+    <menuitem id="menu_openai_product_description_result" name="OpenAI Product Sales Description"
               action="openai_product_description_result_action"
-              sequence="3"
-              parent="openai_connector.menu_openai"/>
+              sequence="80"
+              parent="sale.menu_sale_config"/>
 </odoo>

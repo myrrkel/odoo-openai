@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2020 - Myrrkel (https://github.com/myrrkel).
+# Copyright (C) 2023 - Myrrkel (https://github.com/myrrkel).
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/algpl.html).
 {
     'name': 'OpenAI Product Description',
@@ -13,6 +13,7 @@
     'depends': [
         'openai_connector',
         'product',
+        'sale',
     ],
     'category': 'Community',
     'complexity': 'easy',
