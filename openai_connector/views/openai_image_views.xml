@@ -19,6 +19,7 @@
                         <group name="top_right">
                             <field name="active" widget="boolean_toggle"/>
                             <field name="target_field_id" domain="[('model_id', '=', model_id)]"/>
+                            <field name="save_on_target_field"/>
                         </group>
                     </group>
 

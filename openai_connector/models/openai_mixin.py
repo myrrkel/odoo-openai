@@ -22,6 +22,7 @@ class OpenAiMixin(models.AbstractModel):
     active = fields.Boolean(default=True)
     model_id = fields.Many2one('ir.model', string='Model', required=True, ondelete='cascade')
     domain = fields.Char()
+    save_on_target_field = fields.Boolean()
     target_field_id = fields.Many2one('ir.model.fields', string='Target Field')
     prompt_template = fields.Text()
     prompt_template_id = fields.Many2one('ir.ui.view', string='Prompt Template View')
@@ -62,8 +63,10 @@ class OpenAiMixin(models.AbstractModel):
             self.apply(rec_id.id)
 
     def apply(self, rec_id):
-            result_id = self.openai_create(rec_id)
-            result_id.save_result_on_target_field()
+        result_ids = self.openai_create(rec_id)
+        for result_id in result_ids:
+            if self.save_on_target_field:
+                result_id.save_result_on_target_field()
 
     def openai_create(self):
         return False

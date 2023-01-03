@@ -36,17 +36,22 @@ class OpenAiCompletion(models.Model):
             model=self.ai_model,
             prompt=prompt,
             max_tokens=self.max_tokens,
+            n=self.n,
             temperature=self.temperature,
             top_p=self.top_p,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
         )
-        answer = res.choices[0].text
         prompt_tokens = res.usage.prompt_tokens
         completion_tokens = res.usage.completion_tokens
         total_tokens = res.usage.total_tokens
-        result_id = self.create_result(rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens)
-        return result_id
+
+        result_ids = []
+        for choice in res.choices:
+            answer = choice.text.strip()
+            result_id = self.create_result(rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens)
+            result_ids.append(result_id)
+        return result_ids
 
     def openai_create(self, rec_id):
         return self.create_completion(rec_id)
@@ -70,5 +75,5 @@ class OpenAiCompletion(models.Model):
         if not rec_id:
             return
         self.test_prompt = self.get_prompt(rec_id)
-        res = self.create_completion(rec_id)
-        self.test_answer = res.answer
+        result_ids = self.create_completion(rec_id)
+        self.test_answer = result_ids[0].answer

@@ -34,9 +34,12 @@ class OpenAiImage(models.Model):
     def create_image(self, rec_id):
         prompt = self.get_prompt(rec_id)
         res = self.run_image_method(prompt)
-        image_url = res['data'][0]['url']
-        result_id = self.create_result(rec_id, prompt, image_url)
-        return result_id
+        result_ids = []
+        for data in res['data']:
+            image_url = data['url']
+            result_id = self.create_result(rec_id, prompt, image_url)
+            result_ids.append(result_id)
+        return result_ids
 
     def run_image_method(self, prompt):
         openai = self.get_openai()
@@ -67,5 +70,5 @@ class OpenAiImage(models.Model):
         if not rec_id:
             return
         self.test_prompt = self.get_prompt(rec_id)
-        result_id = self.create_image(rec_id)
-        self.test_answer = result_id.answer
+        result_ids = self.create_image(rec_id)
+        self.test_answer = result_ids[0].answer
