@@ -48,9 +48,8 @@ class OpenAiCompletion(models.Model):
         result_id = self.create_result(rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens)
         return result_id
 
-    def apply_completion(self, rec_id):
-        result_id = self.create_completion(rec_id)
-        self.save_result_on_target_field(rec_id, result_id.answer)
+    def openai_create(self, rec_id):
+        return self.create_completion(rec_id)
 
     def create_result(self, rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens):
         values = {'completion_id': self.id,
@@ -65,10 +64,6 @@ class OpenAiCompletion(models.Model):
                   }
         result_id = self.env['openai.completion.result'].create(values)
         return result_id
-
-    def run_completion(self):
-        for rec_id in self.get_records():
-            self.apply_completion(rec_id.id)
 
     def run_test_completion(self):
         rec_id = self.get_records(limit=1).id

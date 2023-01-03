@@ -34,6 +34,4 @@ class OpenAiCompletionResult(models.Model):
             vals['origin_answer'] = self.answer
         return super(OpenAiCompletionResult, self).write(vals)
 
-    def action_apply_completion(self):
-        self.completion_id.save_result_on_target_field(self.res_id, self.answer)
 

@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
     <record id="openai_edit_view_form" model="ir.ui.view">
-        <field name="name">OpenAI Edit</field>
+        <field name="name">openai.edit.view.form</field>
         <field name="model">openai.edit</field>
         <field name="arch" type="xml">
             <form string="OpenAI Edit">
                 <sheet>
                     <header>
-                        <button name="run_edit" type="object"
+                        <button name="run" type="object"
                                 string="Run Edit" class="btn-primary" data-hotkey="r"/>
                     </header>
                     <group name="top">
@@ -68,7 +68,7 @@
     </record>
 
     <record id="openai_edit_view_tree" model="ir.ui.view">
-        <field name="name">OpenAI Edit</field>
+        <field name="name">openai.edit.view.tree</field>
         <field name="model">openai.edit</field>
         <field name="arch" type="xml">
             <tree string="OpenAI Edit">

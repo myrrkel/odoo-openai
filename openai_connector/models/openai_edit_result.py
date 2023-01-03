@@ -35,6 +35,4 @@ class OpenAiEditResult(models.Model):
             vals['origin_answer'] = self.answer
         return super(OpenAiEditResult, self).write(vals)
 
-    def action_apply_edit(self):
-        self.edit_id.save_result_on_target_field(self.res_id, self.answer)
 

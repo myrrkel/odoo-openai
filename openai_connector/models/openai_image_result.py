@@ -24,7 +24,3 @@ class OpenAiImageResult(models.Model):
                 rec.name = f'{rec.image_id.name} - {rec.resource_ref.display_name}'
             else:
                 rec.name = f'{rec.image_id.name} - {rec.model_id.name} ({self.res_id})'
-
-    def action_apply_image(self):
-        self.image_id.save_result_on_target_field(self.res_id, self.answer)
-

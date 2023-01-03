@@ -47,9 +47,8 @@ class OpenAiImage(models.Model):
         if self.method == 'create_variation':
             return openai.Image.create_variation(prompt=prompt, n=self.n)
 
-    def apply_image(self, rec_id):
-        result_id = self.create_image(rec_id)
-        self.save_result_on_target_field(rec_id, result_id.answer)
+    def openai_create(self, rec_id):
+        return self.create_image(rec_id)
 
     def create_result(self, rec_id, prompt, image_url):
         answer = base64.b64encode(requests.get(image_url).content)
@@ -62,10 +61,6 @@ class OpenAiImage(models.Model):
                   }
         result_id = self.env['openai.image.result'].create(values)
         return result_id
-
-    def run_image(self):
-        for rec_id in self.get_records():
-            self.apply_image(rec_id.id)
 
     def run_test_image(self):
         rec_id = self.get_records(limit=1).id

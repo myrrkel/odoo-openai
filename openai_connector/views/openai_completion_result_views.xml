@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
     <record id="openai_completion_result_view_form" model="ir.ui.view">
-        <field name="name">OpenAI Completion Result</field>
+        <field name="name">openai.completion.result.view.form</field>
         <field name="model">openai.completion.result</field>
         <field name="arch" type="xml">
             <form string="OpenAI Completion Result">
                 <sheet>
                     <header>
-                        <button name="action_apply_completion" type="object"
+                        <button name="action_apply" type="object"
                                 string="Apply Completion" class="btn-primary"/>
                     </header>
                     <group name="top">
@@ -37,14 +37,27 @@
     </record>
 
     <record id="openai_completion_result_view_tree" model="ir.ui.view">
-        <field name="name">OpenAI Completion Result</field>
+        <field name="name">openai.completion.result.view.tree</field>
         <field name="model">openai.completion.result</field>
         <field name="arch" type="xml">
-            <tree string="OpenAI Completion Result" create="false">
+            <tree string="OpenAI Completion Results" create="false">
                 <field name="completion_id"/>
                 <field name="model_id"/>
                 <field name="target_field_id"/>
                 <field name="resource_ref"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="openai_completion_result_simple_view_tree" model="ir.ui.view">
+        <field name="name">openai.completion.result.simple.view.tree</field>
+        <field name="model">openai.completion.result</field>
+        <field name="arch" type="xml">
+            <tree string="OpenAI Completion Results" create="false">
+                <field name="resource_ref"/>
+                <field name="answer"/>
+                <button name="action_apply" type="object"
+                        string="Apply" class="btn-primary"/>
             </tree>
         </field>
     </record>
@@ -61,7 +74,7 @@
         </field>
     </record>
 
-    <menuitem id="menu_openai_completion_result" name="OpenAI Completion Result"
+    <menuitem id="menu_openai_completion_result" name="OpenAI Completion Results"
               action="openai_completion_result_action"
               sequence="3"
               parent="openai_connector.menu_openai"/>

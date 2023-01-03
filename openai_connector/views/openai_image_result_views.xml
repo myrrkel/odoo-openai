@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
     <record id="openai_image_result_view_form" model="ir.ui.view">
-        <field name="name">OpenAI Image Result</field>
+        <field name="name">openai.image.result.view.form</field>
         <field name="model">openai.image.result</field>
         <field name="arch" type="xml">
             <form string="OpenAI Image Result">
                 <sheet>
                     <header>
-                        <button name="action_apply_image" type="object"
+                        <button name="action_apply" type="object"
                                 string="Apply Image" class="btn-primary"/>
                     </header>
                     <group name="top">
@@ -33,7 +33,7 @@
     </record>
 
     <record id="openai_image_result_view_tree" model="ir.ui.view">
-        <field name="name">OpenAI Image Result</field>
+        <field name="name">openai.image.result.view.tree</field>
         <field name="model">openai.image.result</field>
         <field name="arch" type="xml">
             <tree string="OpenAI Image Result" create="false">

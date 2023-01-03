@@ -40,3 +40,10 @@ class OpenAiResultMixin(models.AbstractModel):
     def _set_resource_ref(self):
         for rec in self:
             rec.res_id = rec.resource_ref.id
+
+    def save_result_on_target_field(self):
+        record = self.env[self.model_id.model].browse(self.res_id)
+        record.write({self.target_field_id.name: self.answer})
+
+    def action_apply(self):
+        self.save_result_on_target_field()

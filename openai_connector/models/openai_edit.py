@@ -44,9 +44,8 @@ class OpenAiEdit(models.Model):
         result_id = self.create_result(rec_id, input_text, answer, prompt_tokens, completion_tokens, total_tokens)
         return result_id
 
-    def apply_edit(self, rec_id):
-        result_id = self.create_edit(rec_id)
-        self.save_result_on_target_field(rec_id, result_id.answer)
+    def openai_create(self, rec_id):
+        return self.create_edit(rec_id)
 
     def create_result(self, rec_id, prompt, input_text, answer, prompt_tokens, completion_tokens, total_tokens):
         values = {'edit_id': self.id,
@@ -62,10 +61,6 @@ class OpenAiEdit(models.Model):
                   }
         result_id = self.env['openai.edit.result'].create(values)
         return result_id
-
-    def run_edit(self):
-        for rec_id in self.get_records():
-            self.apply_edit(rec_id.id)
 
     def run_test_edit(self):
         rec_id = self.get_records(limit=1).id

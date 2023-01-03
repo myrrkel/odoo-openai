@@ -42,7 +42,7 @@ class OpenAiMixin(models.AbstractModel):
         if answer_lang_id:
             context['answer_lang'] = answer_lang_id.name
         if self.prompt_template_id:
-            prompt = self._render_template_qweb_view(self.prompt_template_id, self.model_id.model, [rec_id],
+            prompt = self._render_template_qweb_view(self.prompt_template_id.xml_id, self.model_id.model, [rec_id],
                                                      add_context=context)
         elif self.prompt_template:
             prompt = self._render_template_qweb(self.prompt_template, self.model_id.model, [rec_id],
@@ -57,12 +57,19 @@ class OpenAiMixin(models.AbstractModel):
         rec_ids = self.env[self.model_id.model].search(domain, limit=limit)
         return rec_ids
 
+    def run(self):
+        for rec_id in self.get_records():
+            self.apply(rec_id.id)
+
+    def apply(self, rec_id):
+            result_id = self.openai_create(rec_id)
+            result_id.save_result_on_target_field()
+
+    def openai_create(self):
+        return False
+
     def run_test_prompt(self):
         rec_id = self.get_records(limit=1).id
         if not rec_id:
             return
         self.test_prompt = self.get_prompt(rec_id)
-
-    def save_result_on_target_field(self, rec_id, result):
-        record = self.env[self.model_id.model].browse(rec_id)
-        record.write({self.target_field_id.name: result})
