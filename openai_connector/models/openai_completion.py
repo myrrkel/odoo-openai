@@ -21,6 +21,9 @@ class OpenAiCompletion(models.Model):
         res.sort()
         return res
 
+    def _get_post_process_list(self):
+        return [('list_to_many2many', 'List to Many2many')]
+
     ai_model = fields.Selection(selection='_get_openai_model_list', string='AI Model', required=True)
     temperature = fields.Float(default=1)
     max_tokens = fields.Integer(default=16)
@@ -28,6 +31,7 @@ class OpenAiCompletion(models.Model):
     frequency_penalty = fields.Float()
     presence_penalty = fields.Float()
     test_answer = fields.Text(readonly=True)
+    post_process = fields.Selection(selection='_get_post_process_list')
 
     def create_completion(self, rec_id):
         openai = self.get_openai()

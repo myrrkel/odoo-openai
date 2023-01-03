@@ -51,7 +51,7 @@ class OpenAiMixin(models.AbstractModel):
         else:
             raise UserError(_('A prompt template is required'))
 
-        return prompt[rec_id]
+        return prompt[rec_id].strip()
 
     def get_records(self, limit=0):
         domain = safe_eval(self.domain, SAFE_EVAL_BASE, {'self': self}) if self.domain else []

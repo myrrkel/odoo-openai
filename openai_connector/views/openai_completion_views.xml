@@ -21,6 +21,7 @@
                             <field name="active" widget="boolean_toggle"/>
                             <field name="target_field_id" domain="[('model_id', '=', model_id)]"/>
                             <field name="answer_lang_id" context="{'active_test': False}"/>
+                            <field name="post_process"/>
                         </group>
                     </group>
 
