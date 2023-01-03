@@ -30,7 +30,7 @@ class OpenAiCompletionResult(models.Model):
                 rec.name = f'{rec.completion_id.name} - {rec.model_id.name} ({rec.res_id})'
 
     def write(self, vals):
-        if self.answer and vals.get('answer'):
+        if self.answer and vals.get('answer') and not self.origin_answer:
             vals['origin_answer'] = self.answer
         return super(OpenAiCompletionResult, self).write(vals)
 
