@@ -23,12 +23,12 @@ class OpenAiEditResult(models.Model):
 
     def _compute_name(self):
         for rec in self:
-            if hasattr(self.resource_ref, 'name'):
-                rec.name = f'{self.edit_id.name} - {self.resource_ref.name}'
-            elif hasattr(self.resource_ref, 'display_name'):
-                rec.name = f'{self.edit_id.name} - {self.resource_ref.display_name}'
+            if hasattr(rec.resource_ref, 'name'):
+                rec.name = f'{rec.edit_id.name} - {rec.resource_ref.name}'
+            elif hasattr(rec.resource_ref, 'display_name'):
+                rec.name = f'{rec.edit_id.name} - {rec.resource_ref.display_name}'
             else:
-                rec.name = f'{self.edit_id.name} - {self.model_id.name} ({self.res_id})'
+                rec.name = f'{rec.edit_id.name} - {rec.model_id.name} ({rec.res_id})'
 
     def write(self, vals):
         if self.answer and vals.get('answer'):

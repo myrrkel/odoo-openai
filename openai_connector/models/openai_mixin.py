@@ -24,6 +24,7 @@ class OpenAiMixin(models.AbstractModel):
     domain = fields.Char()
     target_field_id = fields.Many2one('ir.model.fields', string='Target Field')
     prompt_template = fields.Text()
+    prompt_template_id = fields.Many2one('ir.ui.view', string='Prompt Template View')
     n = fields.Integer(default=1)
     answer_lang_id = fields.Many2one('res.lang', string='Answer Language', context={'active_test': False})
     test_prompt = fields.Text(readonly=True)
@@ -40,8 +41,15 @@ class OpenAiMixin(models.AbstractModel):
         answer_lang_id = self.answer_lang_id or self.env['res.lang']._lang_get(lang)
         if answer_lang_id:
             context['answer_lang'] = answer_lang_id.name
-        prompt = self._render_template_qweb(self.prompt_template, self.model_id.model, [rec_id],
-                                            add_context=context)
+        if self.prompt_template_id:
+            prompt = self._render_template_qweb_view(self.prompt_template_id, self.model_id.model, [rec_id],
+                                                     add_context=context)
+        elif self.prompt_template:
+            prompt = self._render_template_qweb(self.prompt_template, self.model_id.model, [rec_id],
+                                                add_context=context)
+        else:
+            raise UserError(_('A prompt template is required'))
+
         return prompt[rec_id]
 
     def get_records(self, limit=0):

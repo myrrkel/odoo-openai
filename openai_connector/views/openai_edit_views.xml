@@ -35,9 +35,12 @@
                     </group>
 
                     <group name="bottom">
-                        <field name="prompt_template" widget="ace" options="{'mode': 'xml'}"/>
+                        <group>
+                            <field name="prompt_template_id" domain="[('type', '=', 'qweb')]"/>
+                        </group>
+                        <field name="prompt_template" widget="ace" options="{'mode': 'xml'}"
+                               attrs="{'invisible': [('prompt_template_id', '!=', False)]}"/>
                     </group>
-
 
                     <div class="oe_edit_only alert alert-info alert-info-center mt-3" role="alert">
                         <b>Available in prompt template:</b><br/>
@@ -45,7 +48,6 @@
                         answer_lang : Language name<br/>
                         html2plaintext : Convert html to text
                     </div>
-
 
                     <group name="tests" col="1">
                         <button name="run_test_prompt" type="object"

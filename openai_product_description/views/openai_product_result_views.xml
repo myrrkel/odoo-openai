@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <record id="openai_product_description_result_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Product Description Results</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">openai.completion.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No OpenAI Product Description Result
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_openai_product_description_result" name="OpenAI Product Description Result"
+              action="openai_product_description_result_action"
+              sequence="3"
+              parent="openai_connector.menu_openai"/>
+</odoo>

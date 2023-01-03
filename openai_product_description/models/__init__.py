@@ -1,0 +1,4 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2020 - Myrrkel (https://github.com/myrrkel).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/algpl.html).
+

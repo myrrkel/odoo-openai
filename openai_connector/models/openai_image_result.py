@@ -18,12 +18,12 @@ class OpenAiImageResult(models.Model):
 
     def _compute_name(self):
         for rec in self:
-            if hasattr(self.resource_ref, 'name'):
-                rec.name = f'{self.image_id.name} - {self.resource_ref.name}'
-            elif hasattr(self.resource_ref, 'display_name'):
-                rec.name = f'{self.image_id.name} - {self.resource_ref.display_name}'
+            if hasattr(rec.resource_ref, 'name'):
+                rec.name = f'{rec.image_id.name} - {rec.resource_ref.name}'
+            elif hasattr(rec.resource_ref, 'display_name'):
+                rec.name = f'{rec.image_id.name} - {rec.resource_ref.display_name}'
             else:
-                rec.name = f'{self.image_id.name} - {self.model_id.name} ({self.res_id})'
+                rec.name = f'{rec.image_id.name} - {rec.model_id.name} ({self.res_id})'
 
     def action_apply_image(self):
         self.image_id.save_result_on_target_field(self.res_id, self.answer)

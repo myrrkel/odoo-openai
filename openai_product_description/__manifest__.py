@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2020 - Myrrkel (https://github.com/myrrkel).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/algpl.html).
+{
+    'name': 'OpenAI Product Description',
+    'version': '16.0.0.0',
+    'author': 'Myrrkel',
+    'website': 'https://github.com/myrrkel',
+    'summary': "Generate a product sale description with OpenAI",
+    'sequence': 0,
+    'certificate': '',
+    'license': 'AGPL-3',
+    'depends': [
+        'openai_connector',
+        'product',
+    ],
+    'category': 'Community',
+    'complexity': 'easy',
+    'qweb': [
+    ],
+    'demo': [
+    ],
+    'images': [
+    ],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        'data/prompt_templates.xml',
+        'data/openai_completion_data.xml',
+        'views/openai_product_result_views.xml',
+    ],
+    'auto_install': False,
+    'installable': True,
+    'application': False,
+}
