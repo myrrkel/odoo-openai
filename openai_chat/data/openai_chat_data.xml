@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="openai_chat.partner_ai" model="res.partner">
+            <field name="name">AI Bot</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="email">ai@example.com</field>
+            <field name="active" eval="False"/>
+            <field name="image_1920" type="base64" file="openai_chat/data/openai-odoo-avatar.png"/>
+        </record>
+
+        <record id="openai_chat.user_ai" model="res.users">
+            <field name="login">ai</field>
+            <field name="partner_id" ref="openai_chat.partner_ai"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[Command.link(ref('base.main_company'))]"/>
+            <field name="signature"><![CDATA[<span>-- <br/>
+AI</span>]]></field>
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>
