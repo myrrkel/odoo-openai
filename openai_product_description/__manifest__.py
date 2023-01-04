@@ -6,7 +6,7 @@
     'version': '16.0.0.0',
     'author': 'Myrrkel',
     'website': 'https://github.com/myrrkel',
-    'summary': "Generate a product sale description with OpenAI",
+    'summary': "Generate a product sales description with OpenAI",
     'sequence': 0,
     'certificate': '',
     'license': 'AGPL-3',

@@ -3,7 +3,7 @@ OpenAI Product Description
 
 [<img src="./static/img/openai_logo.svg" alt="OpenAI Logo" style="width:300px;"/>](https://openai.com/)
 
-This module allows to generate a product sale description with OpenAI's GTP3 model from product tags, attributes or any other product information.
+This module allows to generate a product sales description with OpenAI's GTP3 model from product tags, attributes or any other product information.
 
 ## Usage
 
