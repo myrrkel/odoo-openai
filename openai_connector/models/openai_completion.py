@@ -33,9 +33,10 @@ class OpenAiCompletion(models.Model):
     test_answer = fields.Text(readonly=True)
     post_process = fields.Selection(selection='_get_post_process_list')
 
-    def create_completion(self, rec_id):
+    def create_completion(self, rec_id=0, prompt=''):
         openai = self.get_openai()
-        prompt = self.get_prompt(rec_id)
+        if not prompt and rec_id:
+            prompt = self.get_prompt(rec_id)
         res = openai.Completion.create(
             model=self.ai_model,
             prompt=prompt,
@@ -50,12 +51,15 @@ class OpenAiCompletion(models.Model):
         completion_tokens = res.usage.completion_tokens
         total_tokens = res.usage.total_tokens
 
-        result_ids = []
-        for choice in res.choices:
-            answer = choice.text.strip()
-            result_id = self.create_result(rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens)
-            result_ids.append(result_id)
-        return result_ids
+        if rec_id:
+            result_ids = []
+            for choice in res.choices:
+                answer = choice.text.strip()
+                result_id = self.create_result(rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens)
+                result_ids.append(result_id)
+            return result_ids
+        else:
+            return [choice.text.strip() for choice in res.choices]
 
     def openai_create(self, rec_id):
         return self.create_completion(rec_id)
