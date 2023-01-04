@@ -6,7 +6,7 @@
     'version': '16.0.0.0',
     'author': 'Myrrkel',
     'website': 'https://github.com/myrrkel',
-    'summary': "This module adds a connector for OpenAI API",
+    'summary': "Connector for OpenAI API",
     'sequence': 0,
     'certificate': '',
     'license': 'AGPL-3',
