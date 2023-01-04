@@ -3,9 +3,9 @@ OpenAI Connector
 
 [<img src="./static/img/openai_logo.svg" alt="OpenAI Logo" style="width:300px;"/>](https://openai.com/)
 
-This module adds a connector for OpenAI API and brings the power of ChatGPT and DALL-E in Odoo.
+This module adds a connector for OpenAI API and brings the power of ChatGPT and DALL-E into Odoo.
 
-To create custom OpenAI Completion, Edit or Image, check how to set properly API parameters : [API Documentation](https://beta.openai.com/docs/api-reference/introduction)
+To create a custom OpenAI Completion, Edit or Image, check how to set properly API parameters : [API Documentation](https://beta.openai.com/docs/api-reference/introduction)
 
 ## Configuration
 
@@ -27,12 +27,12 @@ To create a new **OpenAI Completion**, go to **Settings**, **Technical**, **Open
 
 **Target Field**: The field where the generated value will be saved.
 
-**Domain**: The domain to select the records on with the completion will be run.
+**Domain**: The domain to select the records on witch the completion will be run.
 
 
 ![image](./static/img/openai_params.png)
 
-Check [API Documentation](https://beta.openai.com/docs/api-reference/introduction) to set **OpenAI Parameters** values.
+Check the [API Documentation](https://beta.openai.com/docs/api-reference/introduction) to set **OpenAI Parameters** values.
 
 For Completion results go to **Settings**, **Technical**, **OpenAI Completion Results**
 
