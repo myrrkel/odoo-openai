@@ -15,8 +15,7 @@ class MailBot(models.AbstractModel):
         if len(record) != 1 or values.get('author_id') == ai_bot_id or values.get('message_type') != 'comment':
             return
         if self._is_bot_in_private_channel(record):
-            body = values.get('body', '').replace(u'\xa0', u' ').strip().lower().strip('.!')
-            answer = self._get_answer(record, body, values)
+            answer = self._get_answer(record)
             if answer:
                 message_type = 'comment'
                 subtype_id = self.env['ir.model.data']._xmlid_to_res_id('mail.mt_comment')
