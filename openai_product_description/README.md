@@ -1,12 +1,21 @@
 OpenAI Product Description
 ==========================
 
-<img src="./static/img/openai_logo.svg" alt="OpenAI Logo" style="width:300px;"/>
+[<img src="./static/img/openai_logo.svg" alt="OpenAI Logo" style="width:300px;"/>](https://openai.com/)
 
 This module allows to generate a product sale description with OpenAI's GTP3 model from product tags, attributes or any other product information.
 
 ## Usage
 
+On a product, select **Create Sales Description** action :
+
+![image](./static/img/create_description_action.png)
+
+OpenAI will create 4 description proposals. Choose the one you prefer (you can correct it), then, click on **Apply** to save the value as the product sales description.
+
+![image](./static/img/results.png)
+
+This action is also available from the product list view.
 
 
 

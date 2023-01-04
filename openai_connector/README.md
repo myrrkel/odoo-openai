@@ -1,9 +1,11 @@
 OpenAI Connector
 =================
 
-<img src="./static/img/openai_logo.svg" alt="OpenAI Logo" style="width:300px;"/>
+[<img src="./static/img/openai_logo.svg" alt="OpenAI Logo" style="width:300px;"/>](https://openai.com/)
 
 This module adds a connector for OpenAI API and brings the power of ChatGPT and DALL-E in Odoo.
+
+To create custom OpenAI Completion, Edit or Image, check how to set properly API parameters : [API Documentation](https://beta.openai.com/docs/api-reference/introduction)
 
 ## Configuration
 
@@ -11,10 +13,54 @@ Create an account on [https://beta.openai.com/](https://beta.openai.com/)
 
 Create your API Key: [API keys](https://beta.openai.com/account/api-keys)
 
-In **Settings**, Fill the **API Key** field:
+In **Settings**, fill the **API Key** field:
 
 ![image](./static/img/settings.png)
 
+### OpenAI Completion
+
+To create a new **OpenAI Completion**, go to **Settings**, **Technical**, **OpenAI Completion** and create a new record.
+
+![image](./static/img/completion_params.png)
+
+**Model**: The model on witch the completion will be applied.
+
+**Target Field**: The field where the generated value will be saved.
+
+**Domain**: The domain to select the records on with the completion will be run.
+
+
+![image](./static/img/openai_params.png)
+
+Check [API Documentation](https://beta.openai.com/docs/api-reference/introduction) to set **OpenAI Parameters** values.
+
+For Completion results go to **Settings**, **Technical**, **OpenAI Completion Results**
+
+### OpenAI Edit
+
+To create a new **OpenAI Edit**, go to **Settings**, **Technical**, **OpenAI Edit** and create a new record.
+
+For results go to **Settings**, **Technical**, **OpenAI Edit Results**
+
+### OpenAI Image
+
+To create a new **OpenAI Image**, go to **Settings**, **Technical**, **OpenAI Image** and create a new record.
+
+For results go to **Settings**, **Technical**, **OpenAI Image Results**
+
+### Prompt template
+
+Write a prompt template in Qweb:
+
+![image](./static/img/prompt.png)
+
+### Tests
+
+Test actions use the first record selected by the domain.
+
+Test first your prompt to adjust your template, then test the result of the Completion, Edit or Image to adjust OpenAI parameters.
+
+![image](./static/img/tests.png)
 
 ## Requirements
 

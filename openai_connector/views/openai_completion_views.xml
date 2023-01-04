@@ -25,7 +25,7 @@
                         </group>
                     </group>
 
-                    <group name="params">
+                    <group name="params" string="OpenAI Parameters">
                         <group name="params_left">
                             <field name="ai_model"/>
                             <field name="n"/>

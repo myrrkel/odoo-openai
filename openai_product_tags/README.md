@@ -1,14 +1,23 @@
 OpenAI Product Tags
 ===================
 
-<img src="./static/img/openai_logo.svg" alt="OpenAI Logo" style="width:300px;"/>
+[<img src="./static/img/openai_logo.svg" alt="OpenAI Logo" style="width:300px;"/>](https://openai.com/)
 
-This module allows to generate tags for a product with OpenAI's GTP3 model from product's description.
+This module allows to generate tags from product's description with OpenAI's GTP3 model.
 
 ## Usage
 
+On a product, select **Create Product Tags** action :
 
 
+
+![image](./static/img/create_tags_action.png)
+
+Tags are generated from **Internal Notes**:
+
+![image](./static/img/product_tags.png)
+
+This action is also available from the product list view.
 
 ## Requirements
 
