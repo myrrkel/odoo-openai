@@ -7,7 +7,7 @@ This module adds an AI Bot user to chat with like in ChatGPT.
 
 ## Usage
 
-Open a chat and start talking:
+Open a chat and start talking to AI Bot:
 
 ![image](./static/img/open_chat.png)
 
