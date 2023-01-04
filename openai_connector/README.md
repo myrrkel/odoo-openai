@@ -17,6 +17,8 @@ In **Settings**, fill the **API Key** field:
 
 ![image](./static/img/settings.png)
 
+## Usage
+
 ### OpenAI Completion
 
 To create a new **OpenAI Completion**, go to **Settings**, **Technical**, **OpenAI Completion** and create a new record.
