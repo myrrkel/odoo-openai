@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <record id="openai_product_edit_image_search" model="ir.ui.view">
+        <field name='name'>openai.product.tags.search</field>
+        <field name='model'>openai.image.result</field>
+        <field name='arch' type='xml'>
+            <search string="DALL-E Product Image Results">
+                <filter name="openai_product_edit_image" string="Product Image Results"
+                        domain="[('image_id', '=', %(openai_edit_product_image.edit_product_image)d)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="openai_create_product_edit_image_action" model="ir.actions.server">
+        <field name="name">Edit Product Image with DALL-E</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_openai_create_product_edit_image()</field>
+    </record>
+
+    <record id="openai_product_edit_image_action" model="ir.actions.act_window">
+        <field name="name">DALL-E Product Image Results</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">openai.image.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="openai_connector.openai_image_result_view_tree"/>
+        <field name="search_view_id" ref="openai_product_edit_image_search"/>
+        <field name="context">{'search_default_openai_product_edit_image': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No DALL-E Product Image Result
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_openai_product_edit_image_result" name="OpenAI Edit Product Image"
+              action="openai_product_edit_image_action"
+              sequence="81"
+              parent="sale.menu_sale_config"/>
+</odoo>

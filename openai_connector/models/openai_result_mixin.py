@@ -39,7 +39,8 @@ class OpenAiResultMixin(models.AbstractModel):
     @api.onchange('resource_ref')
     def _set_resource_ref(self):
         for rec in self:
-            rec.res_id = rec.resource_ref.id
+            if rec.resource_ref:
+                rec.res_id = rec.resource_ref.id
 
     def get_answer_value(self):
         return self.answer

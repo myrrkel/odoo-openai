@@ -58,6 +58,10 @@ class OpenAiMixin(models.AbstractModel):
         rec_ids = self.env[self.model_id.model].search(domain, limit=limit)
         return rec_ids
 
+    def get_record(self, rec_id):
+        record_id = self.env[self.model_id.model].browse(rec_id)
+        return record_id
+
     def run(self):
         for rec_id in self.get_records():
             self.apply(rec_id.id)
@@ -68,7 +72,7 @@ class OpenAiMixin(models.AbstractModel):
             if self.save_on_target_field:
                 result_id.save_result_on_target_field()
 
-    def openai_create(self):
+    def openai_create(self, rec_id):
         return False
 
     def run_test_prompt(self):

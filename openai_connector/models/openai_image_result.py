@@ -13,7 +13,8 @@ class OpenAiImageResult(models.Model):
     _description = 'OpenAI Image Result'
     _inherit = ['openai.result.mixin']
 
-    image_id = fields.Many2one('openai.image', string='Image', readonly=True, ondelete='cascade')
+    image_id = fields.Many2one('openai.image', string='OpenAI Action', readonly=True, ondelete='cascade')
+    original_image = fields.Image(compute='_compute_original_image')
     answer = fields.Image(readonly=False)
 
     def _compute_name(self):
@@ -24,3 +25,8 @@ class OpenAiImageResult(models.Model):
                 rec.name = f'{rec.image_id.name} - {rec.resource_ref.display_name}'
             else:
                 rec.name = f'{rec.image_id.name} - {rec.model_id.name} ({self.res_id})'
+
+    def _compute_original_image(self):
+        for rec in self:
+            record_id = self.env[rec.model_id.model].browse(rec.res_id)
+            rec.original_image = record_id[rec.image_id.source_image_field_id.name]

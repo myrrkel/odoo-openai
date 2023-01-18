@@ -38,9 +38,9 @@
         <field name="arch" type="xml">
             <tree string="OpenAI Image Result" create="false">
                 <field name="image_id"/>
-                <field name="model_id"/>
-                <field name="target_field_id"/>
                 <field name="resource_ref"/>
+                <field name="original_image" widget="image" class="oe_avatar" options="{'size': [256, 256]}"/>
+                <field name="answer" widget="image" class="oe_avatar" options="{'size': [256, 256]}"/>
             </tree>
         </field>
     </record>
