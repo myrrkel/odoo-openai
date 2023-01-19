@@ -26,7 +26,24 @@ Select the image you prefer and click on **Apply Image** to set is as product im
 ![image](./static/img/product.png)
 
 
+
 Action **Edit Product Image with DALL-E** is also available from the product list view.
+
+## Create a product image from scratch
+
+Leave the **Source Image** field empty, select **Edit Product Image with DALL-E** action.
+
+This option will turn any product into a DALL-E playground...
+
+*<sub>You can also update the template "edit_product_image_template" to create your own prompt from your product properties.</sub>*
+
+
+
+![image](./static/img/create_image_prompt.png)
+![image](./static/img/create_image.png)
+
+
+
 
 ## Requirements
 
