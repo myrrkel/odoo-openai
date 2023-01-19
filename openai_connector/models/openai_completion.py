@@ -61,7 +61,7 @@ class OpenAiCompletion(models.Model):
         else:
             return [choice.text.strip() for choice in res.choices]
 
-    def openai_create(self, rec_id):
+    def openai_create(self, rec_id, method=False):
         return self.create_completion(rec_id)
 
     def create_result(self, rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens):

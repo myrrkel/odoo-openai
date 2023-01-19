@@ -36,9 +36,9 @@ class OpenAiImage(models.Model):
     resize_ratio_field_id = fields.Many2one('ir.model.fields', string='Resize Ratio Field')
     test_answer = fields.Image(readonly=True)
 
-    def create_image(self, rec_id):
+    def create_image(self, rec_id, method=False):
         prompt = self.get_prompt(rec_id)
-        res = self.run_image_method(prompt, rec_id)
+        res = self.run_image_method(prompt, rec_id, method)
         if isinstance(res, bytes):
             return self.create_result(rec_id, prompt, res)
         result_ids = []
@@ -71,11 +71,12 @@ class OpenAiImage(models.Model):
             return record_id[self.resize_ratio_field_id.name] or 1
         return 1
 
-    def run_image_method(self, prompt, rec_id=False):
+    def run_image_method(self, prompt, rec_id=False, method=False):
         openai = self.get_openai()
-        if self.method == 'create':
+        method = method or self.method
+        if method == 'create':
             return openai.Image.create(prompt=prompt, n=self.n, response_format='b64_json')
-        if self.method == 'create_edit':
+        if method == 'create_edit':
             image = self.get_source_image(rec_id)
             if not image:
                 return
@@ -87,7 +88,7 @@ class OpenAiImage(models.Model):
                                             mask=mask,
                                             n=self.n,
                                             response_format='b64_json')
-        if self.method == 'create_variation':
+        if method == 'create_variation':
             return openai.Image.create_variation(prompt=prompt, n=self.n, response_format='b64_json')
 
     def square_image(self, binary_image, ratio=1):
@@ -105,8 +106,8 @@ class OpenAiImage(models.Model):
         res_image.save(img_byte_arr, format='PNG')
         return img_byte_arr.getvalue()
 
-    def openai_create(self, rec_id):
-        return self.create_image(rec_id)
+    def openai_create(self, rec_id, method=False):
+        return self.create_image(rec_id, method=method)
 
     def create_result_from_url(self, rec_id, prompt, image_url):
         return self.create_result(rec_id, prompt, base64.b64encode(requests.get(image_url).content))

@@ -66,13 +66,13 @@ class OpenAiMixin(models.AbstractModel):
         for rec_id in self.get_records():
             self.apply(rec_id.id)
 
-    def apply(self, rec_id):
-        result_ids = self.openai_create(rec_id)
+    def apply(self, rec_id, method=False):
+        result_ids = self.openai_create(rec_id, method)
         for result_id in result_ids:
             if self.save_on_target_field:
                 result_id.save_result_on_target_field()
 
-    def openai_create(self, rec_id):
+    def openai_create(self, rec_id, method=False):
         return False
 
     def run_test_prompt(self):

@@ -49,7 +49,7 @@ class OpenAiEdit(models.Model):
         return result_ids
 
 
-    def openai_create(self, rec_id):
+    def openai_create(self, rec_id, method=False):
         return self.create_edit(rec_id)
 
     def create_result(self, rec_id, prompt, input_text, answer, prompt_tokens, completion_tokens, total_tokens):
