@@ -21,8 +21,12 @@ class ProductTemplate(models.Model):
             image_edit_id = self.env.ref('openai_edit_product_image.edit_product_image')
             if rec.openai_source_image:
                 method = 'create_edit'
-            else:
+            elif rec.image_description:
                 method = 'create'
+            elif rec.image_1920:
+                method = 'create_variation'
+            else:
+                continue
             image_edit_id.apply(rec.id, method=method)
         if image_edit_id.save_on_target_field:
             return {

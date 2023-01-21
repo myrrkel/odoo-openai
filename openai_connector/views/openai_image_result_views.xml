@@ -37,9 +37,11 @@
         <field name="model">openai.image.result</field>
         <field name="arch" type="xml">
             <tree string="OpenAI Image Result" create="false">
+                <field name="name" optional="show"/>
                 <field name="image_id" optional="show"/>
                 <field name="resource_ref" optional="show"/>
                 <field name="prompt" optional="hide"/>
+                <field name="method" optional="hide"/>
                 <field name="original_image" widget="image" class="oe_avatar" options="{'size': [256, 256]}"
                        optional="show"/>
                 <field name="answer" widget="image" class="oe_avatar" options="{'size': [256, 256]}"/>

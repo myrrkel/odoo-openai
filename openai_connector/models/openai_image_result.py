@@ -15,16 +15,20 @@ class OpenAiImageResult(models.Model):
 
     image_id = fields.Many2one('openai.image', string='OpenAI Action', readonly=True, ondelete='cascade')
     original_image = fields.Image(compute='_compute_original_image')
+    method = fields.Char()
     answer = fields.Image(readonly=False)
 
     def _compute_name(self):
         for rec in self:
             if hasattr(rec.resource_ref, 'name'):
-                rec.name = f'{rec.image_id.name} - {rec.resource_ref.name}'
+                name = f'{rec.image_id.name} - {rec.resource_ref.name}'
             elif hasattr(rec.resource_ref, 'display_name'):
-                rec.name = f'{rec.image_id.name} - {rec.resource_ref.display_name}'
+                name = f'{rec.image_id.name} - {rec.resource_ref.display_name}'
             else:
-                rec.name = f'{rec.image_id.name} - {rec.model_id.name} ({self.res_id})'
+                name = f'{rec.image_id.name} - {rec.model_id.name} ({self.res_id})'
+            if rec.test_result:
+                name = '%s (%s)' % (name, _('TEST'))
+            rec.name = name
 
     def _compute_original_image(self):
         for rec in self:

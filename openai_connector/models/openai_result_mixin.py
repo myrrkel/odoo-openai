@@ -20,6 +20,7 @@ class OpenAiResultMixin(models.AbstractModel):
     resource_ref = fields.Reference(string='Record', selection='_selection_target_model',
                                     compute='_compute_resource_ref', inverse='_set_resource_ref', readonly=True)
     prompt = fields.Text(readonly=True)
+    test_result = fields.Boolean()
 
     @api.model
     def _selection_target_model(self):
