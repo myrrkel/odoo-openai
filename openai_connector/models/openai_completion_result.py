@@ -5,7 +5,7 @@
 from odoo import models, fields, api, _
 import ast
 import logging
-
+import re
 _logger = logging.getLogger(__name__)
 
 
@@ -46,12 +46,13 @@ class OpenAiCompletionResult(models.Model):
         if '=' in val:
             val = val.split('=')[1]
         target_model = self.target_field_id.relation
-        val_list = ast.literal_eval(val.strip())
+        val = re.sub(r'[^\w\s,-]', '', val.strip())
+        val_list = val.strip().split(',')
         res = [(5, 0, 0)]
         for el in val_list:
-            rec_el = self.env[target_model].search([('name', '=', el)])
+            rec_el = self.env[target_model].search([('name', '=', el.strip())])
             if not rec_el:
-                res.append((0, 0, {'name': el}))
+                res.append((0, 0, {'name': el.strip()}))
             else:
                 res.append((4, rec_el.id))
         return res
