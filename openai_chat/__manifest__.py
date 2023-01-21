@@ -28,6 +28,11 @@
         'data/openai_chat_data.xml',
         'data/openai_completion_data.xml',
     ],
+    'assets': {
+        'mail.assets_messaging': [
+            'openai_chat/static/src/models/messaging_initializer.js',
+        ],
+    },
     'auto_install': False,
     'installable': True,
     'application': False,

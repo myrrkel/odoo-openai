@@ -5,3 +5,4 @@
 from . import res_users
 from . import mail_thread
 from . import mail_ai_bot
+from . import mail_channel
