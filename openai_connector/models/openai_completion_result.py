@@ -5,8 +5,18 @@
 from odoo import models, fields, api, _
 import ast
 import logging
+import re
 
 _logger = logging.getLogger(__name__)
+
+
+def clean_list_element(el):
+    if '.' in el:
+        el = el.split('.')[1]
+    if '-' in el:
+        el = el.split('-')[1]
+    el = re.sub(r'[^\w\s,-]', '', el.strip())
+    return el
 
 
 class OpenAiCompletionResult(models.Model):
@@ -43,12 +53,37 @@ class OpenAiCompletionResult(models.Model):
         return answer
 
     def list_to_many2many(self, val):
+        """
+        :param val: a string representing a  python list or a comma separated list
+        e.g: "test = ['val1', 'val2']" or " val1, val2, "
+        :return: a many2many update list.
+        e.g: [(5, 0, 0), (0, 0, {'name': 'new tag'})]
+        """
+
+        res = [(5, 0, 0)]
         if '=' in val:
             val = val.split('=')[1]
+        val = val.strip()
+        if val[0] == '[':
+            # Eval Python list string
+            val_list = ast.literal_eval(val)
+        else:
+            # Split the string
+            if '\n' in val:
+                separator = '\n'
+            else:
+                separator = ','
+            val_list = val.split(separator)
+
+        val_list = [clean_list_element(el) for el in val_list]
+        if not val_list:
+            return False
+
+        # Create many2many update list
         target_model = self.target_field_id.relation
-        val_list = ast.literal_eval(val.strip())
-        res = [(5, 0, 0)]
         for el in val_list:
+            if not el:
+                continue
             rec_el = self.env[target_model].search([('name', '=', el)])
             if not rec_el:
                 res.append((0, 0, {'name': el}))
