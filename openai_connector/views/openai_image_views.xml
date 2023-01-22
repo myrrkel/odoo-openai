@@ -54,15 +54,34 @@
                     <group name="tests" col="1">
                         <button name="run_test_prompt" type="object"
                                 string="Test Prompt" class="btn btn-primary btn-center" icon="fa-terminal"/>
+                        <group col="1" class="pt-3">
+                            <group col="1">
+                                <field name="test_prompt"/>
+                            </group>
+                        </group>
                         <group col="2">
-                            <field name="test_prompt"/>
+                            <group col="2">
+                                <field name="test_source_image" widget="image" options='{"size": [256, 256]}'
+                                       class="image-transparent-background"/>
+                                <field name="test_resize_ratio"/>
+                            </group>
+                            <group col="2">
+                                <field name="test_mask_image" widget="image" options='{"size": [256, 256]}'
+                                       class="image-transparent-background"/>
+
+                            </group>
                         </group>
 
                         <button name="run_test_image" type="object"
                                 string="Test Image" class="btn btn-primary btn-center" icon="fa-cogs"/>
+
                         <group col="2">
-                            <field name="test_answer" widget="image"/>
+                            <field name="test_answer" class="pt-3" widget="image"/>
                         </group>
+
+                        <button name="result_to_source_image" type="object"
+                                string="Use result as test source image" class="btn btn-primary btn-center"
+                                icon="fa-arrow-up"/>
                     </group>
                 </sheet>
             </form>

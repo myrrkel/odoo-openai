@@ -30,22 +30,29 @@ class OpenAiCompletion(models.Model):
     top_p = fields.Float(default=1)
     frequency_penalty = fields.Float()
     presence_penalty = fields.Float()
+    stop = fields.Char()
     test_answer = fields.Text(readonly=True)
     post_process = fields.Selection(selection='_get_post_process_list')
 
-    def create_completion(self, rec_id=0, prompt=''):
+    def create_completion(self, rec_id=0, prompt='', **kwargs):
         openai = self.get_openai()
         if not prompt and rec_id:
             prompt = self.get_prompt(rec_id)
+
+        max_tokens = kwargs.get('max_tokens', self.max_tokens)
+        stop = kwargs.get('stop', self.stop or '')
+        if isinstance(stop, str) and ',' in stop:
+            stop = stop.split(',')
         res = openai.Completion.create(
             model=self.ai_model,
             prompt=prompt,
-            max_tokens=self.max_tokens,
+            max_tokens=max_tokens,
             n=self.n,
             temperature=self.temperature,
             top_p=self.top_p,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
+            stop=stop,
         )
         prompt_tokens = res.usage.prompt_tokens
         completion_tokens = res.usage.completion_tokens

@@ -32,5 +32,14 @@ class OpenAiImageResult(models.Model):
 
     def _compute_original_image(self):
         for rec in self:
-            record_id = self.env[rec.model_id.model].browse(rec.res_id)
-            rec.original_image = record_id[rec.image_id.source_image_field_id.name]
+            try:
+                record_id = self.env[rec.model_id.model].browse(rec.res_id)
+                if rec.image_id.source_image_field_id:
+                    res = record_id[rec.image_id.source_image_field_id.name]
+                    if res:
+                        rec.original_image = res
+                        continue
+                rec.original_image = None
+            except Exception as err:
+                _logger.error(err)
+                pass

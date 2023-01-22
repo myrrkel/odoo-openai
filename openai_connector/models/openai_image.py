@@ -22,8 +22,7 @@ def square_image(binary_image, ratio=1):
     res_image = Image.open(io.BytesIO(base64.b64decode(binary_image)))
     x, y = res_image.size
     size = max(x, y)
-    if x != y:
-        res_image = resize_image(res_image, size, x, y)
+    res_image = resize_image(res_image, size, x, y)
 
     if ratio not in [0, 1]:
         zoom_size = int(size * 1 / ratio)
@@ -57,10 +56,15 @@ class OpenAiImage(models.Model):
     mask_image_field_id = fields.Many2one('ir.model.fields', string='Mask Image Field')
     resize_ratio_field_id = fields.Many2one('ir.model.fields', string='Resize Ratio Field')
     test_answer = fields.Image(readonly=True)
+    test_source_image = fields.Image()
+    test_mask_image = fields.Image()
+    test_resize_ratio = fields.Float(default=1)
 
     def create_image(self, rec_id, method=False):
         prompt = self.get_prompt(rec_id)
         res = self.run_image_method(prompt, rec_id, method)
+        if not res:
+            return
         if isinstance(res, bytes):
             return self.create_result(rec_id, prompt, res)
         result_ids = []
@@ -74,7 +78,12 @@ class OpenAiImage(models.Model):
 
     def get_source_image(self, rec_id, resize=False):
         record_id = self.get_record(rec_id)
+        if self.env.context.get('openai_test') and self.test_source_image:
+            return square_image(self.test_source_image, self.test_resize_ratio or 1)
+
         image_field = self.source_image_field_id.name or self.target_field_id.name
+        if not image_field:
+            return
         image = record_id[image_field]
         if not image and self.source_image_field_id.name:
             image = record_id[self.target_field_id.name]
@@ -83,6 +92,9 @@ class OpenAiImage(models.Model):
 
     def get_mask_image(self, rec_id):
         record_id = self.get_record(rec_id)
+        if self.env.context.get('openai_test') and self.test_mask_image:
+            return square_image(self.test_mask_image, self.test_resize_ratio or 1)
+
         if self.mask_image_field_id:
             mask = record_id[self.mask_image_field_id.name]
             if mask:
@@ -154,5 +166,9 @@ class OpenAiImage(models.Model):
             return
         self.test_prompt = self.get_prompt(rec_id)
         result_ids = self.with_context(openai_test=True).create_image(rec_id)
-        self.test_answer = result_ids[0].answer
-        return {'type': 'ir.actions.client', 'tag': 'reload'}
+        if result_ids:
+            self.test_answer = result_ids[0].answer
+            return {'type': 'ir.actions.client', 'tag': 'reload'}
+
+    def result_to_source_image(self):
+        self.test_source_image = self.test_answer
