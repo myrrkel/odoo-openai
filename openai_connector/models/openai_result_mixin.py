@@ -49,7 +49,7 @@ class OpenAiResultMixin(models.AbstractModel):
     def save_result_on_target_field(self):
         record = self.env[self.model_id.model].browse(self.res_id)
         answer_value = self.get_answer_value()
-        if answer_value:
+        if answer_value and self.target_field_id:
             record.write({self.target_field_id.name: answer_value})
 
     def action_apply(self):
