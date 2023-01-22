@@ -20,6 +20,23 @@ Or go is **Discuss**:
 ![image](./static/img/discuss.png)
 
 
+### Clear the chat
+
+use the command **/clear** to clear the chat:
+
+![image](./static/img/clear_chat.png)
+
+### Boost AI Bot answer
+
+By default, AI Bot answer length is limited. To get longer answer, start your prompt with an exclamation mark, so AI Bor will use a maximum of tokens to answer.
+
+
+
+![image](./static/img/truncated_answer.png)
+![image](./static/img/longer_answer.png)
+
+
+
 ## Requirements
 
 **openai_connector** is required. 
