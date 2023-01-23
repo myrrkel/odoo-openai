@@ -8,7 +8,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class ResPartner(models.Model):
+class ResUsers(models.Model):
     _inherit = 'res.users'
 
     def _init_messaging(self):
@@ -18,7 +18,7 @@ class ResPartner(models.Model):
 
     def _init_ai_bot(self):
         self.ensure_one()
-        ai_bot_id = self.env['ir.model.data']._xmlid_to_res_id('openai_chat.partner_ai')
-        channel_info = self.env['mail.channel'].channel_get([ai_bot_id, self.partner_id.id])
+        ai_bot_partner_id = self.env['ir.model.data']._xmlid_to_res_id('openai_chat.partner_ai')
+        channel_info = self.env['mail.channel'].channel_get([ai_bot_partner_id, self.partner_id.id])
         channel = self.env['mail.channel'].browse(channel_info['id'])
         return channel

@@ -30,7 +30,7 @@ class MailBot(models.AbstractModel):
                 answer = ''
                 _logger.error(err)
                 if 'maximum context length' in err.user_message:
-                    answer = _('ERROR - Sorry, the quest require to much tokens.'
+                    answer = _('ERROR - Sorry, this request requires too many tokens.'
                                'Please consider using the command "\\clean" to clear the AI chat.')
                     pass
             if answer:

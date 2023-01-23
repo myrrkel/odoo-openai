@@ -13,6 +13,7 @@
     'depends': [
         'openai_connector',
         'mail',
+        'bus',
     ],
     'category': 'Community',
     'complexity': 'easy',
