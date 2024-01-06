@@ -15,7 +15,10 @@ class OpenAiCompletion(models.Model):
     _inherit = ['openai.mixin']
 
     def _get_openai_model_list(self):
-        openai = self.get_openai()
+        try:
+            openai = self.get_openai()
+        except Exception as err:
+            return [('text-davinci-003', 'text-davinci-003')]
         model_list = openai.Model.list()
         res = [(m.id, m.id) for m in model_list.data]
         res.sort()
