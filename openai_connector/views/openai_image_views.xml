@@ -32,7 +32,9 @@
                             <field name="n"/>
                         </group>
                         <group name="params_right">
-                            <field name="size"/>
+                            <field name="ai_model"/>
+                            <field name="size" attrs="{'invisible':[('ai_model','=', 'dall-e-3')]}"/>
+                            <field name="size_dalle3" attrs="{'invisible':[('ai_model','!=', 'dall-e-3')]}"/>
                         </group>
                     </group>
 

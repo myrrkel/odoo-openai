@@ -6,7 +6,7 @@
             <field name="model_id" ref="product.model_product_template"/>
             <field name="target_field_id" ref="product.field_product_template__description_sale"/>
             <field name="domain">[]</field>
-            <field name="ai_model">text-davinci-003</field>
+            <field name="ai_model">gpt-3.5-turbo</field>
             <field name="max_tokens">300</field>
             <field name="n">4</field>
             <field name="temperature">0.5</field>

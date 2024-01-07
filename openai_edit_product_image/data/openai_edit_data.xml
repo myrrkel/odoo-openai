@@ -5,7 +5,12 @@
             <field name="name">Edit Product Image</field>
             <field name="model_id" ref="product.model_product_template"/>
             <field name="target_field_id" ref="product.field_product_template__image_1920"/>
-            <field name="source_image_field_id" ref="openai_edit_product_image.field_product_template__openai_source_image"/>
+            <field name="source_image_field_id"
+                   ref="openai_edit_product_image.field_product_template__openai_source_image"/>
+            <field name="mask_image_field_id"
+                   ref="openai_edit_product_image.field_product_template__openai_mask_image"/>
+            <field name="resize_ratio_field_id"
+                   ref="openai_edit_product_image.field_product_template__image_ratio"/>
             <field name="save_on_target_field">False</field>
             <field name="domain">[]</field>
             <field name="method">create_edit</field>

@@ -3,9 +3,11 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 import base64
 import logging
 import requests
+import openai
 import io
 from PIL import Image
 
@@ -43,6 +45,11 @@ class OpenAiImage(models.Model):
         res = [(m, m) for m in size_list]
         return res
 
+    def _get_openai_image_size_dalle3_list(self):
+        size_list = ['1024x1024', '1024x1792', '1792x1024']
+        res = [(m, m) for m in size_list]
+        return res
+
     def _get_openai_image_method_list(self):
         return [
             ('create', _('Create')),
@@ -50,8 +57,17 @@ class OpenAiImage(models.Model):
             ('create_variation', _('Variation')),
         ]
 
+    def _get_openai_image_model(self):
+        return [
+            ('dall-e-2', _('DALL·E 2')),
+            ('dall-e-3', _('DALL·E 3')),
+        ]
+
     method = fields.Selection(selection='_get_openai_image_method_list')
+    ai_model = fields.Selection(selection='_get_openai_image_model', string='AI Model')
     size = fields.Selection(selection='_get_openai_image_size_list', default='1024x1024')
+    size_dalle3 = fields.Selection(string='Size DALL·E 3', selection='_get_openai_image_size_dalle3_list',
+                                   default='1024x1024')
     source_image_field_id = fields.Many2one('ir.model.fields', string='Source Image Field')
     mask_image_field_id = fields.Many2one('ir.model.fields', string='Mask Image Field')
     resize_ratio_field_id = fields.Many2one('ir.model.fields', string='Resize Ratio Field')
@@ -62,17 +78,19 @@ class OpenAiImage(models.Model):
 
     def create_image(self, rec_id, method=False):
         prompt = self.get_prompt(rec_id)
-        res = self.run_image_method(prompt, rec_id, method)
-        if not res:
-            return
+        try:
+            res = self.run_image_method(prompt, rec_id, method)
+        except openai.APIError as err:
+            raise UserError(err.message)
+
         if isinstance(res, bytes):
             return self.create_result(rec_id, prompt, res)
         result_ids = []
-        for data in res['data']:
-            if data.get('b64_json'):
-                result_id = self.create_result(rec_id, prompt, data.get('b64_json'), method=method)
+        for data in res.data:
+            if data.b64_json:
+                result_id = self.create_result(rec_id, prompt, data.b64_json, method=method)
             else:
-                result_id = self.create_result_from_url(rec_id, prompt, data['url'], method=method)
+                result_id = self.create_result_from_url(rec_id, prompt, data.url)
             result_ids.append(result_id)
         return result_ids
 
@@ -116,33 +134,42 @@ class OpenAiImage(models.Model):
             number_of_result = self.n or 1
 
         if method == 'create':
-            return openai.Image.create(prompt=prompt,
-                                       n=number_of_result,
-                                       size=self.size or '1024x1024',
-                                       response_format='b64_json')
+            params = {
+                'prompt': prompt,
+                'n': number_of_result,
+                'size': self.size_dalle3 if self.ai_model == 'dall-e-3' else self.size,
+                'response_format': 'b64_json'
+            }
+            if self.ai_model:
+                params['model'] = self.ai_model
+            return openai.images.generate(**params)
         if method == 'create_edit':
             image = self.get_source_image(rec_id, resize=True)
             if not image:
-                return
+                raise UserError('Source image is required for image edition.')
             mask = self.get_mask_image(rec_id)
+            params = {
+                'prompt': prompt,
+                'image': image,
+                'n': number_of_result,
+                'size': self.size,
+                'response_format': 'b64_json'
+            }
+            if mask:
+                params['mask'] = mask
 
-            return openai.Image.create_edit(prompt=prompt,
-                                            image=image,
-                                            mask=mask,
-                                            n=number_of_result,
-                                            size=self.size,
-                                            response_format='b64_json')
+            return openai.images.edit(**params)
         if method == 'create_variation':
             image = self.get_source_image(rec_id)
             if not image:
-                return
-            return openai.Image.create_variation(image=image,
-                                                 n=number_of_result,
-                                                 size=self.size,
-                                                 response_format='b64_json')
+                raise UserError('Source image is required to crete image variation.')
+            return openai.images.create_variation(image=image,
+                                                  n=number_of_result,
+                                                  size=self.size,
+                                                  response_format='b64_json')
 
     def openai_create(self, rec_id, method=False):
-        return self.create_image(rec_id, method=method)
+        return self.create_image(rec_id, method=method) or []
 
     def create_result_from_url(self, rec_id, prompt, image_url):
         return self.create_result(rec_id, prompt, base64.b64encode(requests.get(image_url).content))

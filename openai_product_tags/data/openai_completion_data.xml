@@ -8,7 +8,7 @@
             <field name="post_process">list_to_many2many</field>
             <field name="save_on_target_field">True</field>
             <field name="domain">[]</field>
-            <field name="ai_model">text-davinci-003</field>
+            <field name="ai_model">gpt-3.5-turbo</field>
             <field name="max_tokens">500</field>
             <field name="n">1</field>
             <field name="temperature">0.5</field>
