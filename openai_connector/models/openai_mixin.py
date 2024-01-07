@@ -8,7 +8,7 @@ from odoo.tools.safe_eval import safe_eval
 from odoo.addons.base.models.ir_model import SAFE_EVAL_BASE
 from odoo.tools import html2plaintext
 import logging
-import openai
+from openai import OpenAI
 
 _logger = logging.getLogger(__name__)
 
@@ -31,10 +31,11 @@ class OpenAiMixin(models.AbstractModel):
     test_prompt = fields.Text(readonly=True)
 
     def get_openai(self):
-        openai.api_key = self.env['ir.config_parameter'].sudo().get_param('openai_api_key')
-        if not openai.api_key:
+        api_key = self.env['ir.config_parameter'].sudo().get_param('openai_api_key')
+        if not api_key:
             raise UserError(_('OpenAI API key is required.'))
-        return openai
+        client = OpenAI(api_key=api_key)
+        return client
 
     def get_prompt(self, rec_id):
         context = {'html2plaintext': html2plaintext}

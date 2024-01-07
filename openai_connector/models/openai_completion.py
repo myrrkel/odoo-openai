@@ -18,8 +18,8 @@ class OpenAiCompletion(models.Model):
         try:
             openai = self.get_openai()
         except Exception as err:
-            return [('text-davinci-003', 'text-davinci-003')]
-        model_list = openai.Model.list()
+            return [('gpt-3.5-turbo', 'gpt-3.5-turbo')]
+        model_list = openai.models.list()
         res = [(m.id, m.id) for m in model_list.data]
         res.sort()
         return res
@@ -37,18 +37,21 @@ class OpenAiCompletion(models.Model):
     test_answer = fields.Text(readonly=True)
     post_process = fields.Selection(selection='_get_post_process_list')
 
-    def create_completion(self, rec_id=0, prompt='', **kwargs):
+    def create_completion(self, rec_id=0, messages=None, prompt='', **kwargs):
         openai = self.get_openai()
-        if not prompt and rec_id:
-            prompt = self.get_prompt(rec_id)
+        if not messages:
+            if not prompt and rec_id:
+                prompt = self.get_prompt(rec_id)
+            messages = [{'role': 'user', 'content': prompt}]
+
 
         max_tokens = kwargs.get('max_tokens', self.max_tokens)
         stop = kwargs.get('stop', self.stop or '')
         if isinstance(stop, str) and ',' in stop:
             stop = stop.split(',')
-        res = openai.Completion.create(
+        res = openai.chat.completions.create(
             model=self.ai_model,
-            prompt=prompt,
+            messages=messages,
             max_tokens=max_tokens,
             n=self.n,
             temperature=self.temperature,
@@ -64,12 +67,12 @@ class OpenAiCompletion(models.Model):
         if rec_id:
             result_ids = []
             for choice in res.choices:
-                answer = choice.text.strip()
+                answer = choice.message.content
                 result_id = self.create_result(rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens)
                 result_ids.append(result_id)
             return result_ids
         else:
-            return [choice.text.strip() for choice in res.choices]
+            return [choice.message.content for choice in res.choices]
 
     def openai_create(self, rec_id, method=False):
         return self.create_completion(rec_id)
