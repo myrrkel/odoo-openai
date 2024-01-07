@@ -47,7 +47,7 @@ This option will turn any product into a DALL-E playground...
 
 ## Requirements
 
-**openai_connector** is required. 
+[openai_connector](../openai_connector/README.md) is required. 
 
 This module requires the Python client library for OpenAI API
 

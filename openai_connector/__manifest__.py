@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     'name': 'OpenAI Connector',
-    'version': '16.0.0.0',
+    'version': '16.1.0.0',
     'author': 'Myrrkel',
     'website': 'https://github.com/myrrkel',
     'summary': "Connector for OpenAI API",
@@ -31,8 +31,6 @@
         'views/res_config_settings_views.xml',
         'views/openai_completion_views.xml',
         'views/openai_completion_result_views.xml',
-        'views/openai_edit_views.xml',
-        'views/openai_edit_result_views.xml',
         'views/openai_image_views.xml',
         'views/openai_image_result_views.xml',
     ],

@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/algpl.html).
 {
     'name': 'OpenAI Chat',
-    'version': '16.0.0.0',
+    'version': '16.1.0.0',
     'author': 'Myrrkel',
     'website': 'https://github.com/myrrkel',
     'summary': "Add a AI Bot user to chat with like in ChatGPT",

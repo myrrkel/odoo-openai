@@ -23,7 +23,7 @@ This action is also available from the product list view.
 
 ## Requirements
 
-**openai_connector** is required. 
+[openai_connector](../openai_connector/README.md) is required. 
 
 This module requires the Python client library for OpenAI API
 
