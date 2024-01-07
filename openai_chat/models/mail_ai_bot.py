@@ -4,6 +4,7 @@
 
 from odoo import models, _
 from odoo.tools import plaintext2html, html2plaintext
+from odoo.exceptions import UserError
 import logging
 import openai
 
@@ -26,41 +27,45 @@ class MailBot(models.AbstractModel):
 
             try:
                 answer = self._get_answer(record, answer_type)
-            except openai.error.InvalidRequestError as err:
-                answer = ''
+            except openai.APIError as err:
                 _logger.error(err)
-                if 'maximum context length' in err.user_message:
+                if 'maximum context length' in err.message:
                     answer = _('ERROR - Sorry, this request requires too many tokens.'
                                'Please consider using the command "\\clean" to clear the AI chat.')
                     pass
+                else:
+                    raise UserError(err.message)
+
             if answer:
                 message_type = 'comment'
                 subtype_id = self.env['ir.model.data']._xmlid_to_res_id('mail.mt_comment')
                 record = record.with_context(mail_create_nosubscribe=True).sudo()
                 record.message_post(body=answer, author_id=ai_bot_id, message_type=message_type, subtype_id=subtype_id)
 
-    def get_chat_prompt(self, record, only_human=False):
+    def get_chat_messages(self, record, header, only_human=False):
         partner_ai_id = self.env.ref('openai_chat.partner_ai')
-        previous_message_ids = record.website_message_ids.filtered(lambda m: m.body != '')
+        previous_message_ids = record.message_ids.filtered(lambda m: m.body != '')
         if only_human:
             previous_message_ids = previous_message_ids.filtered(lambda m: m.author_id != partner_ai_id)
-        dialog = '\n'
-        for message_id in previous_message_ids.sorted('create_date'):
-            user_name = 'AI' if message_id.author_id == partner_ai_id else 'Human'
-            dialog += f'{user_name}: {html2plaintext(message_id.body)}\n'
-        return dialog
+
+        chat_messages = [{'role': 'system', 'content': header}] if header else []
+        for message_id in previous_message_ids.sorted('date'):
+            role = 'assistant' if message_id.author_id == partner_ai_id else 'user'
+            chat_message = {'role': role,
+                            'content': html2plaintext(message_id.body)}
+            chat_messages.append(chat_message)
+        return chat_messages
 
     def _get_answer(self, record, answer_type='chat'):
         completion_id = self.env.ref('openai_chat.completion_chat')
         header = completion_id.prompt_template
 
         if answer_type == 'chat':
-            dialog = self.get_chat_prompt(record)
-            res = completion_id.create_completion(prompt=header+dialog+'AI: ')
+            messages = self.get_chat_messages(record, header)
+            res = completion_id.create_completion(messages=messages)
         elif answer_type == 'important':
-            dialog = self.get_chat_prompt(record, only_human=True)
-            res = completion_id.create_completion(prompt=header+dialog+'AI: ',
-                                                  stop_sequences=['Human:', 'AI:'],
+            messages = self.get_chat_messages(record, header, only_human=True)
+            res = completion_id.create_completion(messages,
                                                   max_tokens=2048)
         else:
             return
