@@ -3,7 +3,7 @@
     <data noupdate="1">
         <record id="completion_chat" model="openai.completion">
             <field name="name">AI Chat</field>
-            <field name="model_id" ref="mail.model_mail_channel"/>
+            <field name="model_id" ref="mail.model_discuss_channel"/>
             <field name="domain">[]</field>
             <field name="ai_model">gpt-3.5-turbo</field>
             <field name="max_tokens">3200</field>

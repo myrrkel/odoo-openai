@@ -74,6 +74,6 @@ class MailBot(models.AbstractModel):
 
     def _is_bot_in_private_channel(self, record):
         ai_bot_id = self.env['ir.model.data']._xmlid_to_res_id('openai_chat.partner_ai')
-        if record._name == 'mail.channel' and record.channel_type == 'chat':
+        if record._name == 'discuss.channel' and record.channel_type == 'chat':
             return ai_bot_id in record.with_context(active_test=False).channel_partner_ids.ids
         return False

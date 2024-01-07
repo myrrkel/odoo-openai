@@ -33,8 +33,8 @@
                         </group>
                         <group name="params_right">
                             <field name="ai_model"/>
-                            <field name="size" attrs="{'invisible':[('ai_model','=', 'dall-e-3')]}"/>
-                            <field name="size_dalle3" attrs="{'invisible':[('ai_model','!=', 'dall-e-3')]}"/>
+                            <field name="size" invisible="ai_model == 'dall-e-3'"/>
+                            <field name="size_dalle3" invisible="ai_model != 'dall-e-3'"/>
                         </group>
                     </group>
 
@@ -43,7 +43,7 @@
                             <field name="prompt_template_id" domain="[('type', '=', 'qweb')]"/>
                         </group>
                         <field name="prompt_template" widget="ace" options="{'mode': 'xml'}"
-                               attrs="{'invisible': [('prompt_template_id', '!=', False)]}"/>
+                               invisible="prompt_template_id != False"/>
                     </group>
 
                     <div class="oe_image_only alert alert-info alert-info-center mt-3" role="alert">

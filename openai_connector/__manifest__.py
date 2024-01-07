@@ -12,6 +12,7 @@
     'license': 'AGPL-3',
     'depends': [
         'base',
+        'base_setup',
         'mail',
     ],
     'external_dependencies': {

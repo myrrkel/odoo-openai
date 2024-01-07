@@ -43,7 +43,7 @@
                 <field name="prompt" optional="hide"/>
                 <field name="method" optional="hide"/>
                 <field name="original_image" widget="image" class="oe_avatar" options="{'size': [256, 256]}"
-                       optional="show" attrs="{'invisible': [('original_image', '=', False)]}"/>
+                       optional="show" invisible="original_image == False"/>
                 <field name="answer" widget="image" class="oe_avatar" options="{'size': [256, 256]}"/>
             </tree>
         </field>

@@ -27,7 +27,7 @@
                     <group name="result" col="1">
                         <group col="2">
                             <field name="answer"/>
-                            <field name="origin_answer" attrs="{'invisible': [('origin_answer', '=', False)]}"/>
+                            <field name="origin_answer" invisible="origin_answer == False"/>
                             <field name="prompt"/>
                         </group>
                     </group>
