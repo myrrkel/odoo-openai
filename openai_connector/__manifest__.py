@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2022 - Myrrkel (https://github.com/myrrkel).
+# Copyright (C) 2022 - Michel Perrocheau (https://github.com/myrrkel).
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     'name': 'OpenAI Connector',
     'version': '16.1.0.0',
-    'author': 'Myrrkel',
+    'author': 'Michel Perrocheau',
     'website': 'https://github.com/myrrkel',
     'summary': "Connector for OpenAI API",
     'sequence': 0,
