@@ -25,7 +25,13 @@ class OpenAiCompletion(models.Model):
         return res
 
     def _get_post_process_list(self):
-        return [('list_to_many2many', 'List to Many2many')]
+        return [('list_to_many2many', _('List to Many2many')),
+                ('json_to_questions', _('JSON to questions'))]
+
+    def _get_response_format_list(self):
+        return [('text', _('Text')),
+                ('json_object', _('JSON Object')),
+                ]
 
     ai_model = fields.Selection(selection='_get_openai_model_list', string='AI Model', required=True)
     temperature = fields.Float(default=1)
@@ -36,6 +42,7 @@ class OpenAiCompletion(models.Model):
     stop = fields.Char()
     test_answer = fields.Text(readonly=True)
     post_process = fields.Selection(selection='_get_post_process_list')
+    response_format = fields.Selection(selection='_get_response_format_list', default='text')
 
     def create_completion(self, rec_id=0, messages=None, prompt='', **kwargs):
         openai = self.get_openai()
@@ -43,7 +50,6 @@ class OpenAiCompletion(models.Model):
             if not prompt and rec_id:
                 prompt = self.get_prompt(rec_id)
             messages = [{'role': 'user', 'content': prompt}]
-
 
         max_tokens = kwargs.get('max_tokens', self.max_tokens)
         stop = kwargs.get('stop', self.stop or '')
@@ -59,6 +65,7 @@ class OpenAiCompletion(models.Model):
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             stop=stop,
+            response_format={'type': self.response_format or 'text'},
         )
         prompt_tokens = res.usage.prompt_tokens
         completion_tokens = res.usage.completion_tokens
@@ -69,6 +76,8 @@ class OpenAiCompletion(models.Model):
             for choice in res.choices:
                 answer = choice.message.content
                 result_id = self.create_result(rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens)
+                if self.post_process and not self.target_field_id:
+                    result_id.exec_post_process(answer)
                 result_ids.append(result_id)
             return result_ids
         else:

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="openai_question_answer_view_form" model="ir.ui.view">
+        <field name="name">openai.question.answer.view.form</field>
+        <field name="model">openai.question.answer</field>
+        <field name="arch" type="xml">
+            <form string="OpenAI Question Answers">
+                <sheet>
+                    <group name="top">
+                        <field name="resource_ref" class="oe_inline"/>
+                        <field name="answer_completion_id"/>
+                    </group>
+
+                    <group name="result" col="1">
+                        <group col="2">
+                            <field name="name"/>
+                            <field name="answer"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="openai_question_answer_view_tree" model="ir.ui.view">
+        <field name="name">openai.question.answer.view.tree</field>
+        <field name="model">openai.question.answer</field>
+        <field name="arch" type="xml">
+            <tree string="OpenAI Question Answers">
+                <field name="model_id"/>
+                <field name="resource_ref"/>
+                <field name="answer_completion_id"/>
+                <field name="name"/>
+                <field name="answer"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="openai_question_answer_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Question Answers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">openai.question.answer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No OpenAI Question Answers
+            </p>
+        </field>
+    </record>
+
+    <record id="openai_answer_question_action" model="ir.actions.server">
+        <field name="name">Answer Question</field>
+        <field name="model_id" ref="openai_connector.model_openai_question_answer"/>
+        <field name="binding_model_id" ref="openai_connector.model_openai_question_answer"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_answer_question()</field>
+    </record>
+
+    <menuitem id="menu_openai_question_answer" name="OpenAI Question Answers"
+              action="openai_question_answer_action"
+              sequence="6"
+              parent="openai_connector.menu_openai"/>
+</odoo>

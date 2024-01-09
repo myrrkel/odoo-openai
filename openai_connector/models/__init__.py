@@ -9,3 +9,4 @@ from . import openai_completion
 from . import openai_completion_result
 from . import openai_image
 from . import openai_image_result
+from . import openai_question_answer

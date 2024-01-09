@@ -33,6 +33,7 @@
         'views/openai_completion_result_views.xml',
         'views/openai_image_views.xml',
         'views/openai_image_result_views.xml',
+        'views/openai_question_answer_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
