@@ -33,7 +33,8 @@ class OpenAiCompletion(models.Model):
                 ('json_object', _('JSON Object')),
                 ]
 
-    ai_model = fields.Selection(selection='_get_openai_model_list', string='AI Model', required=True)
+    ai_model = fields.Selection(selection='_get_openai_model_list', string='AI Model')
+    fine_tuning_id = fields.Many2one('openai.fine.tuning', string='Fine-Tuning')
     temperature = fields.Float(default=1)
     max_tokens = fields.Integer(default=16)
     top_p = fields.Float(default=1)
@@ -56,7 +57,7 @@ class OpenAiCompletion(models.Model):
         if isinstance(stop, str) and ',' in stop:
             stop = stop.split(',')
         res = openai.chat.completions.create(
-            model=self.ai_model,
+            model=self.ai_model or self.fine_tuning_id.fine_tuned_model,
             messages=messages,
             max_tokens=max_tokens,
             n=self.n,
