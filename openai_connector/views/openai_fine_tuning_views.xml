@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="openai_fine_tuning_view_form" model="ir.ui.view">
+        <field name="name">openai.fine.tuning.view.form</field>
+        <field name="model">openai.fine.tuning</field>
+        <field name="arch" type="xml">
+            <form string="OpenAI Fine-Tunings">
+                <sheet>
+                    <group name="top">
+                        <field name="name"/>
+                        <field name="training_model"/>
+                        <field name="question_answer_domain"/>
+                        <field name="system_role_content"/>
+                        <field name="training_file_id"/>
+                        <field name="fine_tuning_job_id"/>
+                        <field name="fine_tuned_model"/>
+                    </group>
+
+                    <group name="question_answer" col="1">
+                        <group col="2">
+                            <field name="question_answer_ids"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="openai_fine_tuning_view_tree" model="ir.ui.view">
+        <field name="name">openai.fine.tuning.view.tree</field>
+        <field name="model">openai.fine.tuning</field>
+        <field name="arch" type="xml">
+            <tree string="OpenAI Fine-Tunings">
+                        <field name="name"/>
+                        <field name="training_model"/>
+                        <field name="question_answer_domain"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="openai_fine_tuning_action" model="ir.actions.act_window">
+        <field name="name">OpenAI Fine-Tunings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">openai.fine.tuning</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No OpenAI Fine-Tunings
+            </p>
+        </field>
+    </record>
+
+    <record id="openai_create_training_file_action" model="ir.actions.server">
+        <field name="name">Create Training File</field>
+        <field name="model_id" ref="openai_connector.model_openai_fine_tuning"/>
+        <field name="binding_model_id" ref="openai_connector.model_openai_fine_tuning"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_create_training_file()</field>
+    </record>
+
+    <record id="openai_create_fine_tuning_action" model="ir.actions.server">
+        <field name="name">Create Fine-Tuning</field>
+        <field name="model_id" ref="openai_connector.model_openai_fine_tuning"/>
+        <field name="binding_model_id" ref="openai_connector.model_openai_fine_tuning"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_create_fine_tuning()</field>
+    </record>
+
+    <record id="openai_update_fine_tuned_model_action" model="ir.actions.server">
+        <field name="name">Update Fine-Tuned Model</field>
+        <field name="model_id" ref="openai_connector.model_openai_fine_tuning"/>
+        <field name="binding_model_id" ref="openai_connector.model_openai_fine_tuning"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_update_fine_tuned_model()</field>
+    </record>
+
+    <menuitem id="menu_openai_fine_tuning" name="OpenAI Fine-Tunings"
+              action="openai_fine_tuning_action"
+              sequence="7"
+              parent="openai_connector.menu_openai"/>
+</odoo>

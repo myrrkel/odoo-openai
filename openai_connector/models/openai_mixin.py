@@ -30,6 +30,7 @@ class OpenAiMixin(models.AbstractModel):
     answer_lang_id = fields.Many2one('res.lang', string='Answer Language', context={'active_test': False})
     test_prompt = fields.Text(readonly=True)
 
+    @api.model
     def get_openai(self):
         api_key = self.env['ir.config_parameter'].sudo().get_param('openai_api_key')
         if not api_key:

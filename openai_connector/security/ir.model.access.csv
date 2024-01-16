@@ -5,3 +5,6 @@ access_openai_completion_result_user,access_openai_completion_result user,openai
 access_openai_image_user,access_openai_image user,openai_connector.model_openai_image,base.group_user,1,0,0,0
 access_openai_image_admin,access_openai_image admin,openai_connector.model_openai_image,base.group_erp_manager,1,1,1,1
 access_openai_image_result_user,access_openai_image_result user,openai_connector.model_openai_image_result,base.group_user,1,1,1,1
+access_openai_question_answer_user,access_openai_question_answer user,openai_connector.model_openai_question_answer,base.group_user,1,1,1,1
+access_openai_fine_tuning_user,access_openai_fine_tuning user,openai_connector.model_openai_fine_tuning,base.group_user,1,0,0,0
+access_openai_fine_tuning_admin,access_openai_fine_tuning admin,openai_connector.model_openai_fine_tuning,base.group_erp_manager,1,1,1,1

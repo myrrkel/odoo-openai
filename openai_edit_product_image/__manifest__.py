@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2023 - Michel Perrocheau (https://github.com/myrrkel).
+# Copyright (C) 2023 - Myrrkel (https://github.com/myrrkel).
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/algpl.html).
 {
     'name': 'OpenAI Edit Product Image',
-    'version': '17.0.0.0',
+    'version': '17.1.0.0',
     'author': 'Michel Perrocheau',
     'website': 'https://github.com/myrrkel',
     'summary': "Generate a new product image from a cropped product image with DALL-E",

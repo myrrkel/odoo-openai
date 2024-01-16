@@ -21,6 +21,7 @@
                             <field name="active" widget="boolean_toggle"/>
                             <field name="target_field_id" domain="[('model_id', '=', model_id)]"/>
                             <field name="answer_lang_id" context="{'active_test': False}"/>
+                            <field name="response_format"/>
                             <field name="post_process"/>
                         </group>
                     </group>
@@ -28,6 +29,7 @@
                     <group name="params" string="OpenAI Parameters">
                         <group name="params_left">
                             <field name="ai_model"/>
+                            <field name="fine_tuning_id"/>
                             <field name="n"/>
                             <field name="temperature"/>
                             <field name="frequency_penalty"/>

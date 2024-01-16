@@ -126,7 +126,7 @@ class OpenAiImage(models.Model):
         return 1
 
     def run_image_method(self, prompt, rec_id=False, method=False):
-        openai = self.get_openai()
+        openai_cli = self.get_openai()
         method = method or self.method
         if self.env.context.get('openai_test'):
             number_of_result = 1
@@ -142,7 +142,7 @@ class OpenAiImage(models.Model):
             }
             if self.ai_model:
                 params['model'] = self.ai_model
-            return openai.images.generate(**params)
+            return openai_cli.images.generate(**params)
         if method == 'create_edit':
             image = self.get_source_image(rec_id, resize=True)
             if not image:
@@ -158,12 +158,12 @@ class OpenAiImage(models.Model):
             if mask:
                 params['mask'] = mask
 
-            return openai.images.edit(**params)
+            return openai_cli.images.edit(**params)
         if method == 'create_variation':
             image = self.get_source_image(rec_id)
             if not image:
                 raise UserError('Source image is required to crete image variation.')
-            return openai.images.create_variation(image=image,
+            return openai_cli.images.create_variation(image=image,
                                                   n=number_of_result,
                                                   size=self.size,
                                                   response_format='b64_json')

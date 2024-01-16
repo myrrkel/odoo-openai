@@ -128,6 +128,6 @@
 
     <menuitem id="menu_openai_image" name="OpenAI Image"
               action="openai_image_action"
-              sequence="5"
+              sequence="4"
               parent="openai_connector.menu_openai"/>
 </odoo>

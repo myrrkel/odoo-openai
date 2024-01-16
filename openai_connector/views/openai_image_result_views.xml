@@ -63,6 +63,6 @@
 
     <menuitem id="menu_openai_image_result" name="OpenAI Image Result"
               action="openai_image_result_action"
-              sequence="6"
+              sequence="5"
               parent="openai_connector.menu_openai"/>
 </odoo>
