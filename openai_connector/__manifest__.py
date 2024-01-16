@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     'name': 'OpenAI Connector',
-    'version': '17.0.0.0',
+    'version': '17.0.1.0',
     'author': 'Michel Perrocheau',
     'website': 'https://github.com/myrrkel',
     'summary': "Connector for OpenAI API",
@@ -34,6 +34,8 @@
         'views/openai_completion_result_views.xml',
         'views/openai_image_views.xml',
         'views/openai_image_result_views.xml',
+        'views/openai_question_answer_views.xml',
+        'views/openai_fine_tuning_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
