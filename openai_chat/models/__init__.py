@@ -4,6 +4,5 @@
 
 from . import res_users
 from . import res_partner
-from . import mail_thread
 from . import mail_ai_bot
 from . import discuss_channel
