@@ -7,3 +7,4 @@ from . import res_partner
 from . import mail_thread
 from . import mail_ai_bot
 from . import mail_channel
+from . import document_page
