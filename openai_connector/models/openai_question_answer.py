@@ -21,11 +21,16 @@ class OpenAiQuestionAnswer(models.Model):
     resource_ref = fields.Reference(string='Record', selection='_selection_target_model',
                                     compute='_compute_resource_ref', inverse='_set_resource_ref')
     answer_completion_id = fields.Many2one('openai.completion', string='Answer Completion')
+    content_length = fields.Integer(compute='_compute_content_length')
 
     @api.model
     def _selection_target_model(self):
         model_ids = self.env['ir.model'].search([])
         return [(model.model, model.name) for model in model_ids]
+
+    def _compute_content_length(self):
+        for res in self:
+            res.content_length = len(res.name) + len(res.answer)
 
     @api.depends('res_id')
     def _compute_resource_ref(self):
@@ -48,3 +53,13 @@ class OpenAiQuestionAnswer(models.Model):
         for rec in self:
             res = rec.answer_completion_id.create_completion(rec.id)
             rec.answer = res[0].answer
+
+    def get_score(self, keyword_list):
+        score = 0
+        for keyword in keyword_list:
+            keyword = keyword.lower()
+            if keyword in self.name.lower():
+                score += 2
+            if keyword in self.answer.lower():
+                score += 1
+        return score

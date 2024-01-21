@@ -41,8 +41,10 @@
                             <field name="stop"/>
                         </group>
                     </group>
-
-                    <group name="bottom">
+                    <group name="tools" string="OpenAI Tools">
+                        <field name="tool_ids"/>
+                    </group>
+                    <group name="bottom" string="Prompt">
                         <group>
                             <field name="prompt_template_id" domain="[('type', '=', 'qweb')]"/>
                         </group>

@@ -11,3 +11,5 @@ from . import openai_image
 from . import openai_image_result
 from . import openai_question_answer
 from . import openai_fine_tuning
+from . import openai_tool
+from . import openai_tool_property
