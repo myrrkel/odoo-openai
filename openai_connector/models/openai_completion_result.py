@@ -46,9 +46,10 @@ class OpenAiCompletionResult(models.Model):
         return super(OpenAiCompletionResult, self).write(vals)
 
     def exec_post_process(self, value):
-        if self.completion_id.post_process:
-            post_process_function = getattr(self, self.completion_id.post_process)
-            return post_process_function(value)
+        if not self.completion_id.post_process:
+            return value
+        post_process_function = getattr(self, self.completion_id.post_process)
+        return post_process_function(value)
 
     def get_answer_value(self):
         return self.exec_post_process(self.answer)
