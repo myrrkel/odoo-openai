@@ -21,7 +21,7 @@ class OpenAiToolProperty(models.Model):
                 ('integer', _('Integer'))]
 
     name = fields.Char()
-    tool_id = fields.Many2one('openai.tool', invisible=True)
+    tool_id = fields.Many2one('openai.tool', readonly=True)
     type = fields.Selection(selection=_get_tool_property_type_list)
     description = fields.Text()
     required = fields.Boolean()
