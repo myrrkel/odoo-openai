@@ -7,7 +7,7 @@
 # Product description:
 <t t-out="html2plaintext(object.description)"/>
 
-# Give 5 tags for the mains qualities of this product as a Python list
+# Give 5 tags for the main qualities of this product as a Python list
         </template>
     </data>
 </odoo>
