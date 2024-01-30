@@ -50,7 +50,7 @@ class OpenAiCompletion(models.Model):
     def create_completion(self, rec_id=0, messages=None, prompt='', **kwargs):
         openai = self.get_openai()
         if not messages:
-            if not prompt and rec_id:
+            if not prompt:
                 prompt = self.get_prompt(rec_id)
             messages = [{'role': 'user', 'content': prompt}]
 

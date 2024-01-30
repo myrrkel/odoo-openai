@@ -38,7 +38,7 @@ class OpenAiMixin(models.AbstractModel):
         client = OpenAI(api_key=api_key)
         return client
 
-    def get_prompt(self, rec_id):
+    def get_prompt(self, rec_id=0):
         context = {'html2plaintext': html2plaintext}
         lang = self.env.lang
         answer_lang_id = self.answer_lang_id or self.env['res.lang']._lang_get(lang)
