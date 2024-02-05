@@ -37,7 +37,7 @@ class OpenAiCompletion(models.Model):
     ai_model = fields.Selection(selection='_get_openai_model_list', string='AI Model')
     fine_tuning_id = fields.Many2one('openai.fine.tuning', string='Fine-Tuning')
     temperature = fields.Float(default=1)
-    max_tokens = fields.Integer(default=16)
+    max_tokens = fields.Integer(default=3000)
     top_p = fields.Float(default=1)
     frequency_penalty = fields.Float()
     presence_penalty = fields.Float()
@@ -58,20 +58,22 @@ class OpenAiCompletion(models.Model):
         stop = kwargs.get('stop', self.stop or '')
         if isinstance(stop, str) and ',' in stop:
             stop = stop.split(',')
+        response_format = {'type': kwargs.get('response_format', self.response_format) or 'text'}
+        model = self.ai_model or self.fine_tuning_id.fine_tuned_model or kwargs.get('model', 'gpt-3.5-turbo')
 
         tools = [t.get_tool_dict() for t in self.tool_ids] if self.tool_ids else None
 
         res = openai.chat.completions.create(
-            model=self.ai_model or self.fine_tuning_id.fine_tuned_model,
+            model=model,
             messages=messages,
-            max_tokens=max_tokens,
-            n=self.n,
+            max_tokens=max_tokens or 3000,
+            n=self.n or 1,
             temperature=self.temperature,
             top_p=self.top_p,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             stop=stop,
-            response_format={'type': self.response_format or 'text'},
+            response_format=response_format,
             tools=tools,
             tool_choice='auto' if tools else None,
         )
