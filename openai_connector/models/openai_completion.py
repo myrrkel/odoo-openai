@@ -60,16 +60,18 @@ class OpenAiCompletion(models.Model):
             stop = stop.split(',')
         response_format = {'type': kwargs.get('response_format', self.response_format) or 'text'}
         model = self.ai_model or self.fine_tuning_id.fine_tuned_model or kwargs.get('model', 'gpt-3.5-turbo')
-
+        temperature = self.temperature or kwargs.get('temperature', 0)
+        top_p = self.top_p or kwargs.get('top_p', 0)
+        max_tokens = kwargs.get('max_tokens', self.max_tokens or 3000)
         tools = [t.get_tool_dict() for t in self.tool_ids] if self.tool_ids else None
-
+        _logger.info(f'Create completion: {messages}')
         res = openai.chat.completions.create(
             model=model,
             messages=messages,
-            max_tokens=max_tokens or 3000,
+            max_tokens=max_tokens,
             n=self.n or 1,
-            temperature=self.temperature,
-            top_p=self.top_p,
+            temperature=temperature,
+            top_p=top_p,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             stop=stop,
@@ -88,6 +90,7 @@ class OpenAiCompletion(models.Model):
                     messages.append(choice.message)
                     messages.append(self.run_tool_call(tool_call))
                     return self.create_completion(rec_id, messages, prompt, **kwargs)
+            _logger.info(f'Completion result: {choice.message.content}')
             if rec_id:
                 answer = choice.message.content
                 result_id = self.create_result(rec_id, prompt, answer, prompt_tokens, completion_tokens, total_tokens)
